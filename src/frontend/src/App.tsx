@@ -107,21 +107,13 @@ const signupRoute = createRoute({
 const uploadRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/upload",
-  component: () => (
-    <ProtectedContent>
-      <EvidenceUpload />
-    </ProtectedContent>
-  ),
+  component: EvidenceUpload,
 });
 
 const dashboardRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/dashboard",
-  component: () => (
-    <ProtectedContent>
-      <CaseDashboard />
-    </ProtectedContent>
-  ),
+  component: CaseDashboard,
 });
 
 const adminRoute = createRoute({
@@ -137,41 +129,25 @@ const adminRoute = createRoute({
 const rolePortalRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/role-portal",
-  component: () => (
-    <ProtectedContent>
-      <RolePortal />
-    </ProtectedContent>
-  ),
+  component: RolePortal,
 });
 
 const investigatorRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/investigator",
-  component: () => (
-    <ProtectedContent>
-      <InvestigatorDashboard />
-    </ProtectedContent>
-  ),
+  component: InvestigatorDashboard,
 });
 
 const officerRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/officer",
-  component: () => (
-    <ProtectedContent>
-      <OfficerDashboard />
-    </ProtectedContent>
-  ),
+  component: OfficerDashboard,
 });
 
 const userPortalRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/user-portal",
-  component: () => (
-    <ProtectedContent>
-      <UserPortal />
-    </ProtectedContent>
-  ),
+  component: UserPortal,
 });
 
 const routeTree = rootRoute.addChildren([

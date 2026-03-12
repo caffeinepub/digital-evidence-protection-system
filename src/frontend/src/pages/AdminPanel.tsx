@@ -30,6 +30,7 @@ import {
 import type { CaseRecord, EvidenceRecord } from "../backend";
 import Footer from "../components/Footer";
 import { useLang } from "../contexts/LanguageContext";
+import { MOCK_CASES, MOCK_EVIDENCE } from "../data/mockData";
 import { useActor } from "../hooks/useActor";
 import { formatFileSize, formatTimestamp, truncateHash } from "../utils/crypto";
 
@@ -84,7 +85,10 @@ export default function AdminPanel() {
     EvidenceRecord[]
   >({
     queryKey: ["adminEvidence"],
-    queryFn: async () => (actor ? actor.getAllEvidence() : []),
+    queryFn: async () => {
+      const r = actor ? await actor.getAllEvidence() : [];
+      return r.length > 0 ? r : MOCK_EVIDENCE;
+    },
     enabled: !!actor && !isFetching,
   });
 
@@ -92,7 +96,10 @@ export default function AdminPanel() {
     CaseRecord[]
   >({
     queryKey: ["adminCases"],
-    queryFn: async () => (actor ? actor.getAllCases() : []),
+    queryFn: async () => {
+      const r = actor ? await actor.getAllCases() : [];
+      return r.length > 0 ? r : MOCK_CASES;
+    },
     enabled: !!actor && !isFetching,
   });
 

@@ -17,8 +17,9 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import type { CaseRecord, CaseStatus, EvidenceRecord } from "../backend.d";
+import type { CaseRecord, CaseStatus, EvidenceRecord } from "../backend";
 import CyberBackground from "../components/CyberBackground";
+import { MOCK_CASES, MOCK_EVIDENCE } from "../data/mockData";
 import { useActor } from "../hooks/useActor";
 
 function useCounter(target: number, delay = 0) {
@@ -93,7 +94,10 @@ export default function InvestigatorDashboard() {
 
   const { data: cases = [] } = useQuery<CaseRecord[]>({
     queryKey: ["allCases"],
-    queryFn: async () => (actor ? actor.getAllCases() : []),
+    queryFn: async () => {
+      const r = actor ? await actor.getAllCases() : [];
+      return r.length > 0 ? r : MOCK_CASES;
+    },
     enabled: !!actor && !isFetching,
   });
 
@@ -101,7 +105,10 @@ export default function InvestigatorDashboard() {
     EvidenceRecord[]
   >({
     queryKey: ["allEvidence"],
-    queryFn: async () => (actor ? actor.getAllEvidence() : []),
+    queryFn: async () => {
+      const r = actor ? await actor.getAllEvidence() : [];
+      return r.length > 0 ? r : MOCK_EVIDENCE;
+    },
     enabled: !!actor && !isFetching,
   });
 

@@ -7,8 +7,9 @@ import { Link } from "@tanstack/react-router";
 import { ShieldCheck, Upload } from "lucide-react";
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
-import type { CaseRecord, EvidenceRecord } from "../backend.d";
+import type { CaseRecord, EvidenceRecord } from "../backend";
 import CyberBackground from "../components/CyberBackground";
+import { MOCK_CASES, MOCK_EVIDENCE } from "../data/mockData";
 import { useActor } from "../hooks/useActor";
 
 function useCounter(target: number) {
@@ -52,13 +53,19 @@ export default function OfficerDashboard() {
 
   const { data: cases = [] } = useQuery<CaseRecord[]>({
     queryKey: ["allCasesOfficer"],
-    queryFn: async () => (actor ? actor.getAllCases() : []),
+    queryFn: async () => {
+      const r = actor ? await actor.getAllCases() : [];
+      return r.length > 0 ? r : MOCK_CASES;
+    },
     enabled: !!actor && !isFetching,
   });
 
   const { data: evidence = [] } = useQuery<EvidenceRecord[]>({
     queryKey: ["allEvidenceOfficer"],
-    queryFn: async () => (actor ? actor.getAllEvidence() : []),
+    queryFn: async () => {
+      const r = actor ? await actor.getAllEvidence() : [];
+      return r.length > 0 ? r : MOCK_EVIDENCE;
+    },
     enabled: !!actor && !isFetching,
   });
 

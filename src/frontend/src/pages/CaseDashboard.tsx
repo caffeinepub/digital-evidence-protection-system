@@ -22,6 +22,7 @@ import { toast } from "sonner";
 import type { CaseRecord } from "../backend";
 import Footer from "../components/Footer";
 import { useLang } from "../contexts/LanguageContext";
+import { MOCK_CASES } from "../data/mockData";
 import { useActor } from "../hooks/useActor";
 import { formatTimestamp } from "../utils/crypto";
 
@@ -37,7 +38,10 @@ export default function CaseDashboard() {
 
   const { data: cases = [], isLoading } = useQuery<CaseRecord[]>({
     queryKey: ["allCases"],
-    queryFn: async () => (actor ? actor.getAllCases() : []),
+    queryFn: async () => {
+      const result = actor ? await actor.getAllCases() : [];
+      return result.length > 0 ? result : MOCK_CASES;
+    },
     enabled: !!actor && !isFetching,
   });
 
