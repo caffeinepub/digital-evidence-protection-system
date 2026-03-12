@@ -1,5 +1,4 @@
 import { motion } from "motion/react";
-import ThreeBackground3D from "./ThreeBackground3D";
 
 /**
  * Reusable animated background for all pages.
@@ -11,7 +10,6 @@ export default function PageAnimBG() {
   return (
     <>
       {/* 3D rotating wireframe shapes */}
-      <ThreeBackground3D />
 
       {/* Scan line */}
       <div

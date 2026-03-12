@@ -16,7 +16,7 @@ import {
   YAxis,
 } from "recharts";
 import Footer from "../components/Footer";
-import ThreeBackground3D from "../components/ThreeBackground3D";
+import RedRotation3DBG from "../components/RedRotation3DBG";
 import { useLang } from "../contexts/LanguageContext";
 
 const CHART_TEXT = "rgba(240,240,240,0.6)";
@@ -309,8 +309,7 @@ export default function AdminPanel() {
         position: "relative",
       }}
     >
-      {/* 3D rotating background — same as Home page */}
-      <ThreeBackground3D />
+      <RedRotation3DBG />
 
       <section
         className="py-16 px-4"

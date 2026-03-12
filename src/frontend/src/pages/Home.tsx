@@ -18,7 +18,6 @@ import type { ComponentType, SVGProps } from "react";
 import CharSplitHeading from "../components/CharSplitHeading";
 import Footer from "../components/Footer";
 import ScrollytellingSection from "../components/ScrollytellingSection";
-import ThreeBackground3D from "../components/ThreeBackground3D";
 import ThreeScene from "../components/ThreeScene";
 import { useLang } from "../contexts/LanguageContext";
 
@@ -99,6 +98,50 @@ function PulsingStepCircle({ icon: Icon }: { icon: LucideIconType }) {
       >
         <Icon className="w-7 h-7" style={{ color: "#DC2626" }} />
       </div>
+    </div>
+  );
+}
+
+const coreCapabilitiesSquares = Array.from({ length: 18 }, (_, i) => ({
+  id: i,
+  left: `${Math.random() * 100}%`,
+  top: `${Math.random() * 100}%`,
+  size: 4 + Math.floor(Math.random() * 13),
+  opacity: 0.08 + Math.random() * 0.22,
+  duration: 6 + Math.random() * 10,
+  delay: Math.random() * 8,
+  rotate: Math.random() * 360,
+}));
+
+function CoreCapabilitiesBG() {
+  return (
+    <div
+      aria-hidden="true"
+      style={{
+        position: "absolute",
+        inset: 0,
+        overflow: "hidden",
+        pointerEvents: "none",
+        zIndex: 0,
+      }}
+    >
+      {coreCapabilitiesSquares.map((sq) => (
+        <div
+          key={sq.id}
+          style={{
+            position: "absolute",
+            left: sq.left,
+            top: sq.top,
+            width: sq.size,
+            height: sq.size,
+            background: "#DC2626",
+            opacity: sq.opacity,
+            borderRadius: 1,
+            animation: `floatUpSquare ${sq.duration}s ${sq.delay}s linear infinite`,
+            transform: `rotate(${sq.rotate}deg)`,
+          }}
+        />
+      ))}
     </div>
   );
 }
@@ -308,7 +351,6 @@ export default function Home() {
           style={{ position: "absolute", inset: 0, zIndex: 0, opacity: 0.5 }}
         />
         {/* 3D rotating background */}
-        <ThreeBackground3D />
         <div
           style={{
             position: "absolute",
@@ -498,9 +540,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features */}
-      <section className="py-20 px-4 cyber-grid">
-        <div className="max-w-6xl mx-auto">
+      {/* Features — Core Capabilities with floating squares background */}
+      <section
+        className="py-20 px-4 cyber-grid"
+        style={{ position: "relative" }}
+      >
+        <CoreCapabilitiesBG />
+        <div
+          className="max-w-6xl mx-auto"
+          style={{ position: "relative", zIndex: 1 }}
+        >
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

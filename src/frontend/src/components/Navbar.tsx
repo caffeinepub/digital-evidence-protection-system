@@ -19,6 +19,7 @@ export default function Navbar() {
     { to: "/verify", label: t("verify") },
     { to: "/dashboard", label: t("dashboard") },
     { to: "/admin", label: t("adminPanel") },
+    { to: "/my-portal", label: lang === "hi" ? "मेरा पोर्टल" : "My Portal" },
     { to: "/contact", label: t("contact") },
   ];
 

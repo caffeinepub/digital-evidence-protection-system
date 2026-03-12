@@ -26,7 +26,7 @@ import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { ExternalBlob } from "../backend";
 import Footer from "../components/Footer";
-import PageAnimBG from "../components/PageAnimBG";
+import RedRotation3DBG from "../components/RedRotation3DBG";
 import { useLang } from "../contexts/LanguageContext";
 import type { TranslationKey } from "../contexts/LanguageContext";
 import { useActor } from "../hooks/useActor";
@@ -152,7 +152,7 @@ export default function EvidenceUpload() {
         overflow: "hidden",
       }}
     >
-      <PageAnimBG />
+      <RedRotation3DBG />
       <div style={{ position: "relative", zIndex: 1 }}>
         <section className="py-16 px-4">
           <div className="max-w-3xl mx-auto">

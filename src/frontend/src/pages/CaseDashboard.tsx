@@ -21,7 +21,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import type { CaseRecord } from "../backend";
 import Footer from "../components/Footer";
-import PageAnimBG from "../components/PageAnimBG";
+import RedRotation3DBG from "../components/RedRotation3DBG";
 import { useLang } from "../contexts/LanguageContext";
 import { MOCK_CASES } from "../data/mockData";
 import { useActor } from "../hooks/useActor";
@@ -91,7 +91,7 @@ export default function CaseDashboard() {
         overflow: "hidden",
       }}
     >
-      <PageAnimBG />
+      <RedRotation3DBG />
       <div style={{ position: "relative", zIndex: 1 }}>
         <section className="py-16 px-4">
           <div className="max-w-6xl mx-auto">

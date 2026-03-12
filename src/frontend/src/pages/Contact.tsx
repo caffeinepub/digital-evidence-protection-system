@@ -6,7 +6,7 @@ import { CheckCircle, Loader2, Mail, MapPin, Phone, Send } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
 import Footer from "../components/Footer";
-import PageAnimBG from "../components/PageAnimBG";
+import RedRotation3DBG from "../components/RedRotation3DBG";
 import { useLang } from "../contexts/LanguageContext";
 
 export default function Contact() {
@@ -55,7 +55,7 @@ export default function Contact() {
         overflow: "hidden",
       }}
     >
-      <PageAnimBG />
+      <RedRotation3DBG />
       <div style={{ position: "relative", zIndex: 1 }}>
         <section className="py-24 px-4">
           <div className="max-w-6xl mx-auto">

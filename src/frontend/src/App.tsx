@@ -10,6 +10,7 @@ import { Loader2 } from "lucide-react";
 import { Suspense, lazy } from "react";
 import CyberAnimatedBG from "./components/CyberAnimatedBG";
 import Navbar from "./components/Navbar";
+import ThreeBackground3D from "./components/ThreeBackground3D";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
@@ -21,6 +22,12 @@ import Signup from "./pages/Signup";
 const Home = lazy(() => import("./pages/Home"));
 const CaseDashboard = lazy(() => import("./pages/CaseDashboard"));
 const AdminPanel = lazy(() => import("./pages/AdminPanel"));
+const InvestigatorDashboard = lazy(
+  () => import("./pages/InvestigatorDashboard"),
+);
+const OfficerDashboard = lazy(() => import("./pages/OfficerDashboard"));
+const UserPortal = lazy(() => import("./pages/UserPortal"));
+const MyPortal = lazy(() => import("./pages/MyPortal"));
 
 function PageLoader() {
   return (
@@ -40,6 +47,7 @@ function PageLoader() {
 function RootLayout() {
   return (
     <div style={{ minHeight: "100vh", background: "#0a0a0f" }}>
+      <ThreeBackground3D />
       <CyberAnimatedBG />
       <div style={{ position: "relative", zIndex: 1 }}>
         <Navbar />
@@ -83,23 +91,40 @@ const signupRoute = createRoute({
   path: "/signup",
   component: Signup,
 });
-
 const uploadRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/upload",
   component: EvidenceUpload,
 });
-
 const dashboardRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/dashboard",
   component: CaseDashboard,
 });
-
 const adminRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/admin",
   component: AdminPanel,
+});
+const investigatorRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/investigator",
+  component: InvestigatorDashboard,
+});
+const officerRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/officer",
+  component: OfficerDashboard,
+});
+const userPortalRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/user-portal",
+  component: UserPortal,
+});
+const myPortalRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/my-portal",
+  component: MyPortal,
 });
 
 const routeTree = rootRoute.addChildren([
@@ -112,6 +137,10 @@ const routeTree = rootRoute.addChildren([
   uploadRoute,
   dashboardRoute,
   adminRoute,
+  investigatorRoute,
+  officerRoute,
+  userPortalRoute,
+  myPortalRoute,
 ]);
 
 const router = createRouter({ routeTree });

@@ -1,7 +1,7 @@
 import { Eye, Gavel, Globe, Hash, Shield, Users } from "lucide-react";
 import { motion } from "motion/react";
 import Footer from "../components/Footer";
-import PageAnimBG from "../components/PageAnimBG";
+import RedRotation3DBG from "../components/RedRotation3DBG";
 import { useLang } from "../contexts/LanguageContext";
 
 export default function About() {
@@ -60,7 +60,7 @@ export default function About() {
         overflow: "hidden",
       }}
     >
-      <PageAnimBG />
+      <RedRotation3DBG />
       <div style={{ position: "relative", zIndex: 1 }}>
         {/* Page hero */}
         <section
