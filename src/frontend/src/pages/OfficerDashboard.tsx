@@ -8,7 +8,8 @@ import { ShieldCheck, Upload } from "lucide-react";
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import type { CaseRecord, EvidenceRecord } from "../backend";
-import CyberBackground from "../components/CyberBackground";
+import PageAnimBG from "../components/PageAnimBG";
+import { useLang } from "../contexts/LanguageContext";
 import { MOCK_CASES, MOCK_EVIDENCE } from "../data/mockData";
 import { useActor } from "../hooks/useActor";
 
@@ -35,6 +36,7 @@ interface FieldNote {
 }
 
 export default function OfficerDashboard() {
+  const { t } = useLang();
   const { actor, isFetching } = useActor();
   const [caseSearch, setCaseSearch] = useState("");
   const [noteText, setNoteText] = useState("");
@@ -103,431 +105,142 @@ export default function OfficerDashboard() {
         overflow: "hidden",
       }}
     >
-      <CyberBackground />
-
-      {/* Green floating orbs */}
-      <motion.div
-        animate={{ y: [0, -25, 0], x: [0, 14, 0] }}
-        transition={{
-          duration: 8,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-        }}
-        style={{
-          position: "absolute",
-          top: "15%",
-          left: "3%",
-          width: 260,
-          height: 260,
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle, rgba(22,163,74,0.15) 0%, transparent 70%)",
-          filter: "blur(50px)",
-          pointerEvents: "none",
-          zIndex: 1,
-        }}
-      />
-      <motion.div
-        animate={{ y: [0, 20, 0], x: [0, -10, 0] }}
-        transition={{
-          duration: 10,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-        }}
-        style={{
-          position: "absolute",
-          bottom: "10%",
-          right: "4%",
-          width: 200,
-          height: 200,
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle, rgba(22,163,74,0.1) 0%, transparent 70%)",
-          filter: "blur(40px)",
-          pointerEvents: "none",
-          zIndex: 1,
-        }}
-      />
-
-      <div
-        style={{
-          position: "relative",
-          zIndex: 10,
-          padding: "40px 24px",
-          maxWidth: 1100,
-          margin: "0 auto",
-        }}
-      >
-        {/* Header */}
+      <PageAnimBG />
+      <div style={{ position: "relative", zIndex: 1 }}>
+        {/* Green floating orbs */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          style={{ marginBottom: 32 }}
+          animate={{ y: [0, -25, 0], x: [0, 14, 0] }}
+          transition={{
+            duration: 8,
+            repeat: Number.POSITIVE_INFINITY,
+            ease: "easeInOut",
+          }}
+          style={{
+            position: "absolute",
+            top: "15%",
+            left: "3%",
+            width: 260,
+            height: 260,
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(22,163,74,0.15) 0%, transparent 70%)",
+            filter: "blur(50px)",
+            pointerEvents: "none",
+            zIndex: 1,
+          }}
+        />
+        <motion.div
+          animate={{ y: [0, 20, 0], x: [0, -10, 0] }}
+          transition={{
+            duration: 10,
+            repeat: Number.POSITIVE_INFINITY,
+            ease: "easeInOut",
+          }}
+          style={{
+            position: "absolute",
+            bottom: "10%",
+            right: "4%",
+            width: 200,
+            height: 200,
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(22,163,74,0.1) 0%, transparent 70%)",
+            filter: "blur(40px)",
+            pointerEvents: "none",
+            zIndex: 1,
+          }}
+        />
+
+        <div
+          style={{
+            position: "relative",
+            zIndex: 10,
+            padding: "40px 24px",
+            maxWidth: 1100,
+            margin: "0 auto",
+          }}
         >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 16,
-              flexWrap: "wrap",
-            }}
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            style={{ marginBottom: 32 }}
           >
-            <h1
-              style={{
-                fontFamily: "'Bricolage Grotesque', sans-serif",
-                fontSize: "clamp(22px, 4vw, 38px)",
-                fontWeight: 900,
-                color: "#f0f0f0",
-                letterSpacing: "0.04em",
-                margin: 0,
-              }}
-            >
-              OFFICER FIELD PORTAL
-            </h1>
-            <motion.span
-              animate={{ scale: [1, 1.05, 1] }}
-              transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-              style={{
-                padding: "4px 12px",
-                borderRadius: 20,
-                fontSize: 10,
-                fontFamily: "'JetBrains Mono', monospace",
-                fontWeight: 700,
-                letterSpacing: "0.15em",
-                background: "rgba(22,163,74,0.15)",
-                border: "1px solid rgba(22,163,74,0.4)",
-                color: "#16A34A",
-              }}
-            >
-              FIELD ACCESS
-            </motion.span>
-            <motion.span
-              animate={{ opacity: [1, 0.4, 1] }}
-              transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
+            <div
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: 6,
-                fontSize: 12,
-                fontFamily: "'JetBrains Mono', monospace",
-                color: "#16A34A",
+                gap: 16,
+                flexWrap: "wrap",
               }}
             >
-              <span
-                style={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: "50%",
-                  background: "#16A34A",
-                  display: "inline-block",
-                }}
-              />
-              ACTIVE DUTY
-            </motion.span>
-          </div>
-        </motion.div>
-
-        {/* Quick actions */}
-        <div
-          style={{
-            display: "flex",
-            gap: 12,
-            marginBottom: 28,
-            flexWrap: "wrap",
-          }}
-        >
-          <Link to="/upload">
-            <Button
-              data-ocid="officer.upload_button"
-              style={{
-                background: "rgba(22,163,74,0.15)",
-                border: "1px solid rgba(22,163,74,0.4)",
-                color: "#16A34A",
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: 11,
-                letterSpacing: "0.08em",
-              }}
-            >
-              <Upload className="w-4 h-4 mr-2" /> UPLOAD EVIDENCE
-            </Button>
-          </Link>
-          <Link to="/verify">
-            <Button
-              style={{
-                background: "rgba(59,130,246,0.12)",
-                border: "1px solid rgba(59,130,246,0.35)",
-                color: "#3B82F6",
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: 11,
-                letterSpacing: "0.08em",
-              }}
-            >
-              <ShieldCheck className="w-4 h-4 mr-2" /> VERIFY EVIDENCE
-            </Button>
-          </Link>
-        </div>
-
-        {/* Stats */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
-            gap: 16,
-            marginBottom: 32,
-          }}
-        >
-          {[
-            { label: "My Submissions", value: submissions, color: "#f0f0f0" },
-            { label: "Assigned Cases", value: assigned, color: "#16A34A" },
-            { label: "Pending Review", value: pending, color: "#D97706" },
-            { label: "Completed", value: completed, color: "#3B82F6" },
-          ].map(({ label, value, color }) => (
-            <motion.div
-              key={label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              style={{
-                background: "rgba(255,255,255,0.03)",
-                border: `1px solid ${color}30`,
-                borderRadius: 12,
-                padding: "20px",
-                textAlign: "center",
-              }}
-            >
-              <div
+              <h1
                 style={{
                   fontFamily: "'Bricolage Grotesque', sans-serif",
-                  fontSize: 34,
-                  fontWeight: 800,
-                  color,
-                  lineHeight: 1,
-                  marginBottom: 6,
+                  fontSize: "clamp(22px, 4vw, 38px)",
+                  fontWeight: 900,
+                  color: "#f0f0f0",
+                  letterSpacing: "0.04em",
+                  margin: 0,
                 }}
               >
-                {value}
-              </div>
-              <div
+                OFFICER FIELD PORTAL
+              </h1>
+              <motion.span
+                animate={{ scale: [1, 1.05, 1] }}
+                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
                 style={{
+                  padding: "4px 12px",
+                  borderRadius: 20,
+                  fontSize: 10,
                   fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: 9,
-                  color: "rgba(240,240,240,0.4)",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
+                  fontWeight: 700,
+                  letterSpacing: "0.15em",
+                  background: "rgba(22,163,74,0.15)",
+                  border: "1px solid rgba(22,163,74,0.4)",
+                  color: "#16A34A",
                 }}
               >
-                {label}
-              </div>
-            </motion.div>
-          ))}
-        </div>
+                FIELD ACCESS
+              </motion.span>
+              <motion.span
+                animate={{ opacity: [1, 0.4, 1] }}
+                transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  fontSize: 12,
+                  fontFamily: "'JetBrains Mono', monospace",
+                  color: "#16A34A",
+                }}
+              >
+                <span
+                  style={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    background: "#16A34A",
+                    display: "inline-block",
+                  }}
+                />
+                ACTIVE DUTY
+              </motion.span>
+            </div>
+          </motion.div>
 
-        {/* Tabs */}
-        <Tabs defaultValue="evidence">
-          <TabsList
+          {/* Quick actions */}
+          <div
             style={{
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              marginBottom: 24,
+              display: "flex",
+              gap: 12,
+              marginBottom: 28,
+              flexWrap: "wrap",
             }}
           >
-            {["evidence", "cases", "notes"].map((tab) => (
-              <TabsTrigger
-                key={tab}
-                value={tab}
-                data-ocid="officer.tab"
-                style={{
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: 11,
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                }}
-              >
-                {tab === "evidence"
-                  ? "My Evidence"
-                  : tab === "cases"
-                    ? "Assigned Cases"
-                    : "Field Notes"}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-
-          {/* My Evidence */}
-          <TabsContent value="evidence">
-            <div style={{ display: "grid", gap: 12 }}>
-              {(evidence.length === 0 ? mockEvidence : evidence).map((e, i) => (
-                <motion.div
-                  key={
-                    "fileName" in e ? e.fileName : (e as { name: string }).name
-                  }
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.07 }}
-                  style={{
-                    background: "rgba(255,255,255,0.03)",
-                    border: "1px solid rgba(255,255,255,0.07)",
-                    borderRadius: 10,
-                    padding: "14px 18px",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    flexWrap: "wrap",
-                    gap: 10,
-                  }}
-                >
-                  <div>
-                    <p
-                      style={{
-                        margin: 0,
-                        color: "#f0f0f0",
-                        fontWeight: 600,
-                        fontSize: 14,
-                        fontFamily: "'General Sans', sans-serif",
-                      }}
-                    >
-                      {"fileName" in e
-                        ? e.fileName
-                        : (e as { name: string }).name}
-                    </p>
-                    <p
-                      style={{
-                        margin: "3px 0 0",
-                        color: "rgba(240,240,240,0.4)",
-                        fontFamily: "'JetBrains Mono', monospace",
-                        fontSize: 10,
-                      }}
-                    >
-                      {"fileType" in e
-                        ? e.fileType
-                        : (e as { type: string }).type}{" "}
-                      · Hash:{" "}
-                      {("sha256Hash" in e
-                        ? e.sha256Hash
-                        : (e as { hash: string }).hash
-                      ).slice(0, 12)}
-                      ...
-                    </p>
-                  </div>
-                  <span
-                    style={{
-                      padding: "3px 10px",
-                      borderRadius: 20,
-                      fontSize: 9,
-                      fontFamily: "'JetBrains Mono', monospace",
-                      background: "rgba(22,163,74,0.15)",
-                      border: "1px solid rgba(22,163,74,0.35)",
-                      color: "#16A34A",
-                    }}
-                  >
-                    ACTIVE
-                  </span>
-                </motion.div>
-              ))}
-            </div>
-          </TabsContent>
-
-          {/* Assigned Cases */}
-          <TabsContent value="cases">
-            <div style={{ marginBottom: 16 }}>
-              <Input
-                value={caseSearch}
-                onChange={(e) => setCaseSearch(e.target.value)}
-                placeholder="Search assigned cases..."
-                data-ocid="officer.search_input"
-                style={{
-                  background: "rgba(255,255,255,0.04)",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  color: "#f0f0f0",
-                  maxWidth: 340,
-                }}
-              />
-            </div>
-            <div style={{ display: "grid", gap: 12 }}>
-              {(filteredCases.length === 0 ? mockCases : filteredCases).map(
-                (c, i) => (
-                  <motion.div
-                    key={"title" in c ? c.title : String(i)}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.08 }}
-                    style={{
-                      background: "rgba(255,255,255,0.03)",
-                      border: "1px solid rgba(255,255,255,0.07)",
-                      borderRadius: 10,
-                      padding: "16px 20px",
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        flexWrap: "wrap",
-                        gap: 8,
-                      }}
-                    >
-                      <div>
-                        <p
-                          style={{
-                            margin: 0,
-                            color: "#f0f0f0",
-                            fontWeight: 600,
-                            fontFamily: "'General Sans', sans-serif",
-                          }}
-                        >
-                          {"title" in c
-                            ? c.title
-                            : (c as { title: string }).title}
-                        </p>
-                        <p
-                          style={{
-                            margin: "3px 0 0",
-                            color: "rgba(240,240,240,0.4)",
-                            fontFamily: "'JetBrains Mono', monospace",
-                            fontSize: 10,
-                          }}
-                        >
-                          Evidence count:{" "}
-                          {"evidenceIds" in c ? c.evidenceIds.length : 2}
-                        </p>
-                      </div>
-                      <span
-                        style={{
-                          padding: "2px 10px",
-                          borderRadius: 20,
-                          fontSize: 9,
-                          fontFamily: "'JetBrains Mono', monospace",
-                          background: "rgba(220,38,38,0.15)",
-                          border: "1px solid rgba(220,38,38,0.35)",
-                          color: "#DC2626",
-                        }}
-                      >
-                        ASSIGNED
-                      </span>
-                    </div>
-                  </motion.div>
-                ),
-              )}
-            </div>
-          </TabsContent>
-
-          {/* Field Notes */}
-          <TabsContent value="notes">
-            <div style={{ marginBottom: 20 }}>
-              <Textarea
-                value={noteText}
-                onChange={(e) => setNoteText(e.target.value)}
-                placeholder="Write your field note..."
-                style={{
-                  background: "rgba(255,255,255,0.04)",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  color: "#f0f0f0",
-                  minHeight: 100,
-                  marginBottom: 10,
-                }}
-              />
+            <Link to="/upload">
               <Button
-                onClick={saveNote}
-                data-ocid="officer.submit_button"
+                data-ocid="officer.upload_button"
                 style={{
                   background: "rgba(22,163,74,0.15)",
                   border: "1px solid rgba(22,163,74,0.4)",
@@ -537,48 +250,350 @@ export default function OfficerDashboard() {
                   letterSpacing: "0.08em",
                 }}
               >
-                SAVE NOTE
+                <Upload className="w-4 h-4 mr-2" /> UPLOAD EVIDENCE
               </Button>
-            </div>
-            <div style={{ display: "grid", gap: 12 }}>
-              {notes.map((note, i) => (
-                <motion.div
-                  key={note.id}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.06 }}
+            </Link>
+            <Link to="/verify">
+              <Button
+                style={{
+                  background: "rgba(59,130,246,0.12)",
+                  border: "1px solid rgba(59,130,246,0.35)",
+                  color: "#3B82F6",
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: 11,
+                  letterSpacing: "0.08em",
+                }}
+              >
+                <ShieldCheck className="w-4 h-4 mr-2" /> VERIFY EVIDENCE
+              </Button>
+            </Link>
+          </div>
+
+          {/* Stats */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+              gap: 16,
+              marginBottom: 32,
+            }}
+          >
+            {[
+              {
+                label: t("mySubmissions"),
+                value: submissions,
+                color: "#f0f0f0",
+              },
+              { label: t("assignedCases"), value: assigned, color: "#16A34A" },
+              {
+                label: t("pendingReviewStat"),
+                value: pending,
+                color: "#D97706",
+              },
+              { label: t("completed"), value: completed, color: "#3B82F6" },
+            ].map(({ label, value, color }) => (
+              <motion.div
+                key={label}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                style={{
+                  background: "rgba(255,255,255,0.03)",
+                  border: `1px solid ${color}30`,
+                  borderRadius: 12,
+                  padding: "20px",
+                  textAlign: "center",
+                }}
+              >
+                <div
                   style={{
-                    background: "rgba(22,163,74,0.05)",
-                    border: "1px solid rgba(22,163,74,0.2)",
-                    borderRadius: 10,
-                    padding: "14px 18px",
+                    fontFamily: "'Bricolage Grotesque', sans-serif",
+                    fontSize: 34,
+                    fontWeight: 800,
+                    color,
+                    lineHeight: 1,
+                    marginBottom: 6,
                   }}
                 >
-                  <p
-                    style={{
-                      margin: "0 0 6px",
-                      color: "rgba(240,240,240,0.65)",
-                      fontSize: 13,
-                      fontFamily: "'General Sans', sans-serif",
-                    }}
-                  >
-                    {note.text}
-                  </p>
-                  <p
-                    style={{
-                      margin: 0,
-                      color: "rgba(22,163,74,0.6)",
-                      fontFamily: "'JetBrains Mono', monospace",
-                      fontSize: 10,
-                    }}
-                  >
-                    {note.time}
-                  </p>
-                </motion.div>
+                  {value}
+                </div>
+                <div
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: 9,
+                    color: "rgba(240,240,240,0.4)",
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {label}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Tabs */}
+          <Tabs defaultValue="evidence">
+            <TabsList
+              style={{
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                marginBottom: 24,
+              }}
+            >
+              {["evidence", "cases", "notes"].map((tab) => (
+                <TabsTrigger
+                  key={tab}
+                  value={tab}
+                  data-ocid="officer.tab"
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: 11,
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {tab === "evidence"
+                    ? "My Evidence"
+                    : tab === "cases"
+                      ? t("assignedCases")
+                      : "Field Notes"}
+                </TabsTrigger>
               ))}
-            </div>
-          </TabsContent>
-        </Tabs>
+            </TabsList>
+
+            {/* My Evidence */}
+            <TabsContent value="evidence">
+              <div style={{ display: "grid", gap: 12 }}>
+                {(evidence.length === 0 ? mockEvidence : evidence).map(
+                  (e, i) => (
+                    <motion.div
+                      key={
+                        "fileName" in e
+                          ? e.fileName
+                          : (e as { name: string }).name
+                      }
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.07 }}
+                      style={{
+                        background: "rgba(255,255,255,0.03)",
+                        border: "1px solid rgba(255,255,255,0.07)",
+                        borderRadius: 10,
+                        padding: "14px 18px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        flexWrap: "wrap",
+                        gap: 10,
+                      }}
+                    >
+                      <div>
+                        <p
+                          style={{
+                            margin: 0,
+                            color: "#f0f0f0",
+                            fontWeight: 600,
+                            fontSize: 14,
+                            fontFamily: "'General Sans', sans-serif",
+                          }}
+                        >
+                          {"fileName" in e
+                            ? e.fileName
+                            : (e as { name: string }).name}
+                        </p>
+                        <p
+                          style={{
+                            margin: "3px 0 0",
+                            color: "rgba(240,240,240,0.4)",
+                            fontFamily: "'JetBrains Mono', monospace",
+                            fontSize: 10,
+                          }}
+                        >
+                          {"fileType" in e
+                            ? e.fileType
+                            : (e as { type: string }).type}{" "}
+                          · Hash:{" "}
+                          {("sha256Hash" in e
+                            ? e.sha256Hash
+                            : (e as { hash: string }).hash
+                          ).slice(0, 12)}
+                          ...
+                        </p>
+                      </div>
+                      <span
+                        style={{
+                          padding: "3px 10px",
+                          borderRadius: 20,
+                          fontSize: 9,
+                          fontFamily: "'JetBrains Mono', monospace",
+                          background: "rgba(22,163,74,0.15)",
+                          border: "1px solid rgba(22,163,74,0.35)",
+                          color: "#16A34A",
+                        }}
+                      >
+                        ACTIVE
+                      </span>
+                    </motion.div>
+                  ),
+                )}
+              </div>
+            </TabsContent>
+
+            {/* Assigned Cases */}
+            <TabsContent value="cases">
+              <div style={{ marginBottom: 16 }}>
+                <Input
+                  value={caseSearch}
+                  onChange={(e) => setCaseSearch(e.target.value)}
+                  placeholder={t("searchAssignedCases")}
+                  data-ocid="officer.search_input"
+                  style={{
+                    background: "rgba(255,255,255,0.04)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    color: "#f0f0f0",
+                    maxWidth: 340,
+                  }}
+                />
+              </div>
+              <div style={{ display: "grid", gap: 12 }}>
+                {(filteredCases.length === 0 ? mockCases : filteredCases).map(
+                  (c, i) => (
+                    <motion.div
+                      key={"title" in c ? c.title : String(i)}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.08 }}
+                      style={{
+                        background: "rgba(255,255,255,0.03)",
+                        border: "1px solid rgba(255,255,255,0.07)",
+                        borderRadius: 10,
+                        padding: "16px 20px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          flexWrap: "wrap",
+                          gap: 8,
+                        }}
+                      >
+                        <div>
+                          <p
+                            style={{
+                              margin: 0,
+                              color: "#f0f0f0",
+                              fontWeight: 600,
+                              fontFamily: "'General Sans', sans-serif",
+                            }}
+                          >
+                            {"title" in c
+                              ? c.title
+                              : (c as { title: string }).title}
+                          </p>
+                          <p
+                            style={{
+                              margin: "3px 0 0",
+                              color: "rgba(240,240,240,0.4)",
+                              fontFamily: "'JetBrains Mono', monospace",
+                              fontSize: 10,
+                            }}
+                          >
+                            Evidence count:{" "}
+                            {"evidenceIds" in c ? c.evidenceIds.length : 2}
+                          </p>
+                        </div>
+                        <span
+                          style={{
+                            padding: "2px 10px",
+                            borderRadius: 20,
+                            fontSize: 9,
+                            fontFamily: "'JetBrains Mono', monospace",
+                            background: "rgba(220,38,38,0.15)",
+                            border: "1px solid rgba(220,38,38,0.35)",
+                            color: "#DC2626",
+                          }}
+                        >
+                          ASSIGNED
+                        </span>
+                      </div>
+                    </motion.div>
+                  ),
+                )}
+              </div>
+            </TabsContent>
+
+            {/* Field Notes */}
+            <TabsContent value="notes">
+              <div style={{ marginBottom: 20 }}>
+                <Textarea
+                  value={noteText}
+                  onChange={(e) => setNoteText(e.target.value)}
+                  placeholder={t("writeFieldNote")}
+                  style={{
+                    background: "rgba(255,255,255,0.04)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    color: "#f0f0f0",
+                    minHeight: 100,
+                    marginBottom: 10,
+                  }}
+                />
+                <Button
+                  onClick={saveNote}
+                  data-ocid="officer.submit_button"
+                  style={{
+                    background: "rgba(22,163,74,0.15)",
+                    border: "1px solid rgba(22,163,74,0.4)",
+                    color: "#16A34A",
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: 11,
+                    letterSpacing: "0.08em",
+                  }}
+                >
+                  SAVE NOTE
+                </Button>
+              </div>
+              <div style={{ display: "grid", gap: 12 }}>
+                {notes.map((note, i) => (
+                  <motion.div
+                    key={note.id}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.06 }}
+                    style={{
+                      background: "rgba(22,163,74,0.05)",
+                      border: "1px solid rgba(22,163,74,0.2)",
+                      borderRadius: 10,
+                      padding: "14px 18px",
+                    }}
+                  >
+                    <p
+                      style={{
+                        margin: "0 0 6px",
+                        color: "rgba(240,240,240,0.65)",
+                        fontSize: 13,
+                        fontFamily: "'General Sans', sans-serif",
+                      }}
+                    >
+                      {note.text}
+                    </p>
+                    <p
+                      style={{
+                        margin: 0,
+                        color: "rgba(22,163,74,0.6)",
+                        fontFamily: "'JetBrains Mono', monospace",
+                        fontSize: 10,
+                      }}
+                    >
+                      {note.time}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
       </div>
     </div>
   );

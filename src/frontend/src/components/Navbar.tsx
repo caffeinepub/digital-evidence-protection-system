@@ -18,8 +18,7 @@ export default function Navbar() {
     { to: "/upload", label: t("upload") },
     { to: "/verify", label: t("verify") },
     { to: "/dashboard", label: t("dashboard") },
-    { to: "/role-portal", label: "My Portal" },
-    { to: "/admin", label: t("admin") },
+    { to: "/admin", label: t("adminPanel") },
     { to: "/contact", label: t("contact") },
   ];
 

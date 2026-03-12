@@ -16,10 +16,9 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import type { ComponentType, SVGProps } from "react";
 import CharSplitHeading from "../components/CharSplitHeading";
-import CyberBackground from "../components/CyberBackground";
 import Footer from "../components/Footer";
-import HolographicHUD from "../components/HolographicHUD";
 import ScrollytellingSection from "../components/ScrollytellingSection";
+import ThreeBackground3D from "../components/ThreeBackground3D";
 import ThreeScene from "../components/ThreeScene";
 import { useLang } from "../contexts/LanguageContext";
 
@@ -308,7 +307,8 @@ export default function Home() {
           className="cyber-grid"
           style={{ position: "absolute", inset: 0, zIndex: 0, opacity: 0.5 }}
         />
-        <CyberBackground />
+        {/* 3D rotating background */}
+        <ThreeBackground3D />
         <div
           style={{
             position: "absolute",
@@ -323,23 +323,23 @@ export default function Home() {
           }}
         />
 
-        {/* 3D Three.js Scene with HolographicHUD */}
+        {/* 3D Three.js Scene — centered behind hero text */}
         <div
-          className="hidden lg:block"
           style={{
             position: "absolute",
-            right: "3%",
+            left: "50%",
             top: "50%",
-            transform: "translateY(-50%)",
-            width: 420,
-            height: 420,
-            zIndex: 2,
+            transform: "translate(-50%, -50%)",
+            width: 680,
+            height: 680,
+            maxWidth: "90vw",
+            maxHeight: "90vw",
+            zIndex: 1,
             pointerEvents: "none",
-            opacity: 0.85,
+            opacity: 0.55,
           }}
         >
           <ThreeScene />
-          <HolographicHUD />
         </div>
 
         <div

@@ -22,7 +22,7 @@ export default function Login() {
   const isAuthenticated = !!identity && !identity.getPrincipal().isAnonymous();
 
   useEffect(() => {
-    if (isAuthenticated) void navigate({ to: "/role-portal" });
+    if (isAuthenticated) void navigate({ to: "/" });
   }, [isAuthenticated, navigate]);
 
   return (

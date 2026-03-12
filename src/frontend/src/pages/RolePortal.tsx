@@ -1,7 +1,8 @@
 import { useNavigate } from "@tanstack/react-router";
 import { BadgeCheck, User, UserSearch } from "lucide-react";
 import { motion } from "motion/react";
-import CyberBackground from "../components/CyberBackground";
+import PageAnimBG from "../components/PageAnimBG";
+import { useLang } from "../contexts/LanguageContext";
 
 const roles = [
   {
@@ -55,6 +56,7 @@ const words = "CHOOSE YOUR PORTAL".split(" ");
 
 export default function RolePortal() {
   const navigate = useNavigate();
+  const { t } = useLang();
 
   return (
     <div
@@ -70,148 +72,149 @@ export default function RolePortal() {
         padding: "80px 24px",
       }}
     >
-      <CyberBackground />
-
-      {/* Scan-line overlay */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage:
-            "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px)",
-          pointerEvents: "none",
-          zIndex: 2,
-        }}
-      />
-
-      {/* Floating orbs */}
-      <motion.div
-        animate={{ y: [0, -30, 0], x: [0, 15, 0] }}
-        transition={{
-          duration: 7,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-        }}
-        style={{
-          position: "absolute",
-          top: "15%",
-          left: "8%",
-          width: 220,
-          height: 220,
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle, rgba(220,38,38,0.18) 0%, transparent 70%)",
-          filter: "blur(40px)",
-          pointerEvents: "none",
-          zIndex: 1,
-        }}
-      />
-      <motion.div
-        animate={{ y: [0, 25, 0], x: [0, -12, 0] }}
-        transition={{
-          duration: 9,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-        }}
-        style={{
-          position: "absolute",
-          bottom: "10%",
-          right: "6%",
-          width: 280,
-          height: 280,
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%)",
-          filter: "blur(50px)",
-          pointerEvents: "none",
-          zIndex: 1,
-        }}
-      />
-
-      <div
-        style={{
-          position: "relative",
-          zIndex: 10,
-          width: "100%",
-          maxWidth: 1100,
-        }}
-      >
-        {/* Title */}
-        <div style={{ textAlign: "center", marginBottom: 12 }}>
-          <motion.p
-            initial={{ opacity: 0, letterSpacing: "0.5em" }}
-            animate={{ opacity: 1, letterSpacing: "0.3em" }}
-            transition={{ duration: 0.8 }}
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 11,
-              color: "rgba(220,38,38,0.7)",
-              marginBottom: 16,
-              textTransform: "uppercase",
-            }}
-          >
-            DEPS · ACCESS CONTROL SYSTEM
-          </motion.p>
-
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              gap: 12,
-              flexWrap: "wrap",
-              marginBottom: 16,
-            }}
-          >
-            {words.map((word, i) => (
-              <motion.span
-                key={word}
-                initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                transition={{ delay: i * 0.15, duration: 0.6 }}
-                style={{
-                  fontFamily: "'Bricolage Grotesque', sans-serif",
-                  fontSize: "clamp(28px, 5vw, 52px)",
-                  fontWeight: 900,
-                  color: "#f0f0f0",
-                  letterSpacing: "0.05em",
-                }}
-              >
-                {word}
-              </motion.span>
-            ))}
-          </div>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.7 }}
-            style={{
-              color: "rgba(240,240,240,0.5)",
-              fontSize: 15,
-              fontFamily: "'General Sans', sans-serif",
-            }}
-          >
-            Select your access level to proceed to the appropriate dashboard
-          </motion.p>
-        </div>
-
-        {/* Role Cards */}
+      <PageAnimBG />
+      <div style={{ position: "relative", zIndex: 1 }}>
+        {/* Scan-line overlay */}
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: 24,
-            marginTop: 48,
+            position: "absolute",
+            inset: 0,
+            backgroundImage:
+              "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px)",
+            pointerEvents: "none",
+            zIndex: 2,
+          }}
+        />
+
+        {/* Floating orbs */}
+        <motion.div
+          animate={{ y: [0, -30, 0], x: [0, 15, 0] }}
+          transition={{
+            duration: 7,
+            repeat: Number.POSITIVE_INFINITY,
+            ease: "easeInOut",
+          }}
+          style={{
+            position: "absolute",
+            top: "15%",
+            left: "8%",
+            width: 220,
+            height: 220,
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(220,38,38,0.18) 0%, transparent 70%)",
+            filter: "blur(40px)",
+            pointerEvents: "none",
+            zIndex: 1,
+          }}
+        />
+        <motion.div
+          animate={{ y: [0, 25, 0], x: [0, -12, 0] }}
+          transition={{
+            duration: 9,
+            repeat: Number.POSITIVE_INFINITY,
+            ease: "easeInOut",
+          }}
+          style={{
+            position: "absolute",
+            bottom: "10%",
+            right: "6%",
+            width: 280,
+            height: 280,
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%)",
+            filter: "blur(50px)",
+            pointerEvents: "none",
+            zIndex: 1,
+          }}
+        />
+
+        <div
+          style={{
+            position: "relative",
+            zIndex: 10,
+            width: "100%",
+            maxWidth: 1100,
           }}
         >
-          {roles.map((role, i) => (
-            <RoleCard
-              key={role.title}
-              role={role}
-              index={i}
-              onNavigate={() => navigate({ to: role.to })}
-            />
-          ))}
+          {/* Title */}
+          <div style={{ textAlign: "center", marginBottom: 12 }}>
+            <motion.p
+              initial={{ opacity: 0, letterSpacing: "0.5em" }}
+              animate={{ opacity: 1, letterSpacing: "0.3em" }}
+              transition={{ duration: 0.8 }}
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 11,
+                color: "rgba(220,38,38,0.7)",
+                marginBottom: 16,
+                textTransform: "uppercase",
+              }}
+            >
+              {t("myPortal")}
+            </motion.p>
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                gap: 12,
+                flexWrap: "wrap",
+                marginBottom: 16,
+              }}
+            >
+              {words.map((word, i) => (
+                <motion.span
+                  key={word}
+                  initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  transition={{ delay: i * 0.15, duration: 0.6 }}
+                  style={{
+                    fontFamily: "'Bricolage Grotesque', sans-serif",
+                    fontSize: "clamp(28px, 5vw, 52px)",
+                    fontWeight: 900,
+                    color: "#f0f0f0",
+                    letterSpacing: "0.05em",
+                  }}
+                >
+                  {word}
+                </motion.span>
+              ))}
+            </div>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7 }}
+              style={{
+                color: "rgba(240,240,240,0.5)",
+                fontSize: 15,
+                fontFamily: "'General Sans', sans-serif",
+              }}
+            >
+              Select your access level to proceed to the appropriate dashboard
+            </motion.p>
+          </div>
+
+          {/* Role Cards */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+              gap: 24,
+              marginTop: 48,
+            }}
+          >
+            {roles.map((role, i) => (
+              <RoleCard
+                key={role.title}
+                role={role}
+                index={i}
+                onNavigate={() => navigate({ to: role.to })}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>

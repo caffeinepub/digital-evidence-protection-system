@@ -7,68 +7,48 @@ import {
   createRouter,
 } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
+import { Suspense, lazy } from "react";
+import CyberAnimatedBG from "./components/CyberAnimatedBG";
 import Navbar from "./components/Navbar";
-import { Navigate } from "./components/Navigate";
 import { LanguageProvider } from "./contexts/LanguageContext";
-import { useInternetIdentity } from "./hooks/useInternetIdentity";
 import About from "./pages/About";
-import AdminPanel from "./pages/AdminPanel";
-import CaseDashboard from "./pages/CaseDashboard";
 import Contact from "./pages/Contact";
 import EvidenceUpload from "./pages/EvidenceUpload";
 import EvidenceVerification from "./pages/EvidenceVerification";
-import Home from "./pages/Home";
-import InvestigatorDashboard from "./pages/InvestigatorDashboard";
 import Login from "./pages/Login";
-import OfficerDashboard from "./pages/OfficerDashboard";
-import RolePortal from "./pages/RolePortal";
 import Signup from "./pages/Signup";
-import UserPortal from "./pages/UserPortal";
 
-function RootLayout() {
+const Home = lazy(() => import("./pages/Home"));
+const CaseDashboard = lazy(() => import("./pages/CaseDashboard"));
+const AdminPanel = lazy(() => import("./pages/AdminPanel"));
+
+function PageLoader() {
   return (
-    <div style={{ minHeight: "100vh", background: "#0a0a0f" }}>
-      <Navbar />
-      <Outlet />
+    <div
+      style={{
+        minHeight: "80vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Loader2 className="w-8 h-8 animate-spin" style={{ color: "#DC2626" }} />
     </div>
   );
 }
 
-function ProtectedContent({ children }: { children: React.ReactNode }) {
-  const { identity, isInitializing } = useInternetIdentity();
-  const isAuthenticated = !!identity && !identity.getPrincipal().isAnonymous();
-
-  if (isInitializing) {
-    return (
-      <div
-        style={{
-          minHeight: "80vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <div className="text-center">
-          <Loader2
-            className="mx-auto mb-3 w-8 h-8 animate-spin"
-            style={{ color: "#DC2626" }}
-          />
-          <p
-            className="text-sm font-mono"
-            style={{ color: "rgba(240,240,240,0.4)" }}
-          >
-            Initializing...
-          </p>
-        </div>
+function RootLayout() {
+  return (
+    <div style={{ minHeight: "100vh", background: "#0a0a0f" }}>
+      <CyberAnimatedBG />
+      <div style={{ position: "relative", zIndex: 1 }}>
+        <Navbar />
+        <Suspense fallback={<PageLoader />}>
+          <Outlet />
+        </Suspense>
       </div>
-    );
-  }
-
-  if (!isAuthenticated) {
-    return <Navigate to="/login" />;
-  }
-
-  return <>{children}</>;
+    </div>
+  );
 }
 
 const rootRoute = createRootRoute({ component: RootLayout });
@@ -119,35 +99,7 @@ const dashboardRoute = createRoute({
 const adminRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/admin",
-  component: () => (
-    <ProtectedContent>
-      <AdminPanel />
-    </ProtectedContent>
-  ),
-});
-
-const rolePortalRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/role-portal",
-  component: RolePortal,
-});
-
-const investigatorRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/investigator",
-  component: InvestigatorDashboard,
-});
-
-const officerRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/officer",
-  component: OfficerDashboard,
-});
-
-const userPortalRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/user-portal",
-  component: UserPortal,
+  component: AdminPanel,
 });
 
 const routeTree = rootRoute.addChildren([
@@ -160,10 +112,6 @@ const routeTree = rootRoute.addChildren([
   uploadRoute,
   dashboardRoute,
   adminRoute,
-  rolePortalRoute,
-  investigatorRoute,
-  officerRoute,
-  userPortalRoute,
 ]);
 
 const router = createRouter({ routeTree });
