@@ -12,11 +12,14 @@ import {
   Users,
 } from "lucide-react";
 import type { Variants } from "motion/react";
-import { motion } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import type { ComponentType, SVGProps } from "react";
+import CharSplitHeading from "../components/CharSplitHeading";
 import CyberBackground from "../components/CyberBackground";
 import Footer from "../components/Footer";
+import HolographicHUD from "../components/HolographicHUD";
+import ScrollytellingSection from "../components/ScrollytellingSection";
 import ThreeScene from "../components/ThreeScene";
 import { useLang } from "../contexts/LanguageContext";
 
@@ -103,6 +106,9 @@ function PulsingStepCircle({ icon: Icon }: { icon: LucideIconType }) {
 
 export default function Home() {
   const { t } = useLang();
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollY } = useScroll();
+  const heroBgY = useTransform(scrollY, [0, 500], [0, 150]);
 
   const stats: {
     label: string;
@@ -135,7 +141,7 @@ export default function Home() {
     {
       icon: Link2,
       title: t("chainCustody"),
-      desc: "Every action is timestamped and logged \u2014 creating an unbreakable chain of custody.",
+      desc: "Every action is timestamped and logged — creating an unbreakable chain of custody.",
     },
     {
       icon: CheckCircle,
@@ -210,6 +216,7 @@ export default function Home() {
     <div style={{ background: "#0a0a0f" }}>
       {/* Hero */}
       <section
+        ref={heroRef}
         style={{
           position: "relative",
           minHeight: "100vh",
@@ -219,7 +226,8 @@ export default function Home() {
           overflow: "hidden",
         }}
       >
-        <div
+        {/* Parallax hero background */}
+        <motion.div
           style={{
             position: "absolute",
             inset: 0,
@@ -229,6 +237,7 @@ export default function Home() {
             backgroundPosition: "center",
             filter: "brightness(0.2)",
             zIndex: 0,
+            translateY: heroBgY,
           }}
         />
         {/* Parallax floating orbs */}
@@ -314,7 +323,7 @@ export default function Home() {
           }}
         />
 
-        {/* 3D Three.js Scene \u2014 desktop only, right side */}
+        {/* 3D Three.js Scene with HolographicHUD */}
         <div
           className="hidden lg:block"
           style={{
@@ -330,6 +339,7 @@ export default function Home() {
           }}
         >
           <ThreeScene />
+          <HolographicHUD />
         </div>
 
         <div
@@ -352,7 +362,7 @@ export default function Home() {
               animate={{ opacity: [1, 0.3, 1] }}
               transition={{ duration: 1.4, repeat: Number.POSITIVE_INFINITY }}
             />
-            SYSTEM ONLINE \u2014 SECURE CONNECTION ESTABLISHED
+            SYSTEM ONLINE — SECURE CONNECTION ESTABLISHED
           </motion.div>
 
           {/* Word-by-word hero title */}
@@ -501,7 +511,10 @@ export default function Home() {
               className="section-heading text-3xl md:text-4xl mb-4"
               style={{ color: "#f0f0f0" }}
             >
-              Core <span style={{ color: "#DC2626" }}>Capabilities</span>
+              <CharSplitHeading text="Core " />
+              <span style={{ color: "#DC2626" }}>
+                <CharSplitHeading text="Capabilities" />
+              </span>
             </h2>
             <p style={{ color: "rgba(240,240,240,0.5)" }}>
               Built to meet the rigorous demands of digital forensics and legal
@@ -550,6 +563,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Scrollytelling Section — between Features and How It Works */}
+      <ScrollytellingSection />
+
       {/* How it works */}
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto">
@@ -563,7 +579,7 @@ export default function Home() {
               className="section-heading text-3xl md:text-4xl mb-4"
               style={{ color: "#f0f0f0" }}
             >
-              {t("howItWorks")}
+              <CharSplitHeading text={t("howItWorks")} />
             </h2>
           </motion.div>
 

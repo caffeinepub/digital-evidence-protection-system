@@ -1,30 +1,36 @@
 # Digital Evidence Protection System
 
 ## Current State
-App has 7 pages: Home, About, Evidence Upload (with scam types), Evidence Verification, Case Dashboard, Admin Panel, Contact. Role selection exists in Signup. All pages share a single view regardless of role.
+- Home page has basic Three.js scene (wireframe icosahedron + octahedron + 80 floating spheres)
+- CyberBackground with canvas particles, hex grid, scan lines
+- motion/react animations: word-by-word hero title, floating orbs, stat counters, card stagger
+- No scroll-driven narrative / scrollytelling
+- No PBR materials, no post-processing, no depth-of-field
+- No immersive scene transitions between sections
 
 ## Requested Changes (Diff)
 
 ### Add
-- `RolePortal` page (`/role-portal`): Animated role selection hub — 3 animated cards for Investigator, Officer, User with role descriptions, icons, glow effects, floating particles, enter button per card.
-- `InvestigatorDashboard` page (`/investigator`): Full investigator view with — assigned cases list, evidence under investigation, chain-of-custody timeline, quick-seal actions, detailed stats (pending/active/closed), animated counters, staggered card reveals, parallax header.
-- `OfficerDashboard` page (`/officer`): Officer field view — submitted evidence list, assigned cases (read-only), file a new report button (links to upload), mission status badges, animated progress rings, field notes section.
-- `UserPortal` page (`/user-portal`): Citizen/user complaint portal — submit complaint form (name, contact, scam type, description), track case by ID input, evidence verification shortcut, animated stepper showing complaint process, status tracking card.
-- All 4 pages: Heavy framer-motion animations — staggered entrance, floating glowing orbs, animated counters, scan-line overlays, pulsing badges, parallax backgrounds, page-transition fade-slide.
+- **Hyper-realistic 3D hero scene**: Replace basic wireframe with PBR-lit mesh using `@react-three/drei` (Environment, MeshDistortMaterial or MeshTransmissionMaterial), bloom post-processing via `@react-three/postprocessing`, dynamic lighting, depth-of-field
+- **Scrollytelling 2.0**: A dedicated narrative scroll section on Home page where each scroll step reveals a cinematic panel — evidence locked, hash verified, chain secured — with parallax depth layers, text reveal, and counter animations tied to scroll position using `useScroll` + `useTransform` from motion/react
+- **AR/VR-style motion overlays**: Holographic HUD elements (corner brackets, scanning reticles, data readouts) that animate over the 3D scene, simulating AR overlay feel
+- **Cinematic scroll parallax**: Hero background moves at 0.3x scroll speed, mid-layer at 0.6x, foreground content at 1x — true multi-layer parallax
+- **Reveal animations**: Section headings split into characters that slide/fade in from below when entering viewport; staggered timing per character
+- **Particle depth field**: 3D scene gets more spheres with varying Z depth and opacity falloff to simulate depth
 
 ### Modify
-- `App.tsx`: Add routes for `/role-portal`, `/investigator`, `/officer`, `/user-portal` (all protected).
-- `Navbar.tsx`: Add "My Portal" link that routes to `/role-portal` when authenticated, replacing or supplementing existing dashboard link.
-- Login redirect: after login, redirect to `/role-portal` instead of `/dashboard`.
+- `ThreeScene.tsx`: Upgrade to PBR materials, add bloom post-processing, rotating DNA-helix-like structure, animated point lights orbiting the scene
+- `Home.tsx`: Add scrollytelling section between Features and How It Works; enhance hero with parallax layers
+- `CyberBackground.tsx`: Add depth layers — foreground particles move faster than background ones
 
 ### Remove
-- Nothing removed.
+- Nothing removed
 
 ## Implementation Plan
-1. Create `src/pages/RolePortal.tsx` — animated 3-card role selection
-2. Create `src/pages/InvestigatorDashboard.tsx` — investigator-specific detailed view
-3. Create `src/pages/OfficerDashboard.tsx` — officer field dashboard
-4. Create `src/pages/UserPortal.tsx` — citizen complaint + tracking portal
-5. Update `App.tsx` to add 4 new routes
-6. Update `Navbar.tsx` to add Portal link
-7. Update `Login.tsx` redirect to `/role-portal`
+1. Install / verify `@react-three/drei` and `@react-three/postprocessing` are available (they likely are already as R3F is used)
+2. Upgrade `ThreeScene.tsx` — PBR sphere with MeshDistortMaterial, bloom via EffectComposer/Bloom, orbiting point lights, animated DNA helix rings
+3. Add `ScrollytellingSection` component — uses `useScroll`/`useTransform` for scroll-driven cinematic panels with 3 narrative steps
+4. Add `HolographicHUD` overlay component — AR-style corner brackets, animated reticle, data readout lines
+5. Update `Home.tsx` hero with `useScroll`+`useTransform` parallax (background moves slower than foreground)
+6. Add character-split heading animation component for section titles
+7. Validate and deploy
