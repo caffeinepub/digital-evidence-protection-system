@@ -47,6 +47,22 @@ const translations = {
     chainCustody: "Chain of Custody",
     realTimeVerify: "Real-Time Verification",
     multiAgency: "Multi-Agency Support",
+    coreCapabilitiesTitle1: "Core ",
+    coreCapabilitiesTitle2: "Capabilities",
+    coreCapabilitiesSubtitle:
+      "Built to meet the rigorous demands of digital forensics and legal proceedings.",
+    secureStorageDesc:
+      "Immutable evidence storage backed by cryptographic proofs and decentralized blockchain technology.",
+    hashIntegrityDesc:
+      "Every file gets a unique SHA-256 fingerprint computed client-side, stored permanently on-chain.",
+    roleAccessDesc:
+      "Granular permissions for Admins, Investigators, and Officers. No unauthorized access.",
+    chainCustodyDesc:
+      "Every action is timestamped and logged — creating an unbreakable chain of custody.",
+    realTimeVerifyDesc:
+      "Verify evidence integrity instantly by comparing live-computed hashes with stored records.",
+    multiAgencyDesc:
+      "Built for law enforcement, forensic labs, and judicial authorities to collaborate securely.",
     evidenceSecured: "Evidence Secured",
     casesSolved: "Cases Solved",
     agencies: "Agencies",
@@ -246,6 +262,10 @@ const translations = {
     evidenceByType: "Evidence by Scam Type",
     caseStatusDist: "Case Status Distribution",
     uploadTrend: "7-Day Upload Trend",
+    loggedInInvestigator: "Logged in as Investigator · Full privileges active",
+    caseStatusChart: "CASE STATUS",
+    evidenceItemsText: "evidence items",
+    stepLabel: "STEP",
   },
   hi: {
     appName: "डिजिटल साक्ष्य संरक्षण प्रणाली",
@@ -291,6 +311,22 @@ const translations = {
     chainCustody: "हिरासत की श्रृंखला",
     realTimeVerify: "वास्तविक-समय सत्यापन",
     multiAgency: "बहु-एजेंसी समर्थन",
+    coreCapabilitiesTitle1: "मुख्य ",
+    coreCapabilitiesTitle2: "क्षमताएँ",
+    coreCapabilitiesSubtitle:
+      "डिजिटल फोरेंसिक और कानूनी कार्यवाही की कठोर मांगों को पूरा करने के लिए निर्मित।",
+    secureStorageDesc:
+      "क्रिप्टोग्राफिक प्रमाण और विकेंद्रीकृत ब्लॉकचेन तकनीक द्वारा समर्थित अपरिवर्तनीय साक्ष्य भंडारण।",
+    hashIntegrityDesc:
+      "हर फ़ाइल को एक अनूठा SHA-256 फिंगरप्रिंट मिलता है — क्लाइंट-साइड कंप्यूट, ऑन-चेन स्थायी रूप से संग्रहीत।",
+    roleAccessDesc:
+      "एडमिन, जाँचकर्ता और अधिकारियों के लिए विस्तृत अनुमतियाँ। कोई अनधिकृत पहुँच नहीं।",
+    chainCustodyDesc:
+      "हर कार्रवाई टाइमस्टैम्प और लॉग है — अटूट अभिरक्षा श्रृंखला बनाती है।",
+    realTimeVerifyDesc:
+      "लाइव-कंप्यूटेड हैश को संग्रहीत रिकॉर्ड से तुलना करके तुरंत साक्ष्य अखंडता सत्यापित करें।",
+    multiAgencyDesc:
+      "कानून प्रवर्तन, फोरेंसिक लैब और न्यायिक अधिकारियों के लिए सुरक्षित सहयोग हेतु निर्मित।",
     evidenceSecured: "सुरक्षित साक्ष्य",
     casesSolved: "हल किए गए मामले",
     agencies: "एजेंसियाँ",
@@ -489,6 +525,10 @@ const translations = {
     evidenceByType: "स्कैम प्रकार अनुसार साक्ष्य",
     caseStatusDist: "केस स्थिति वितरण",
     uploadTrend: "7-दिन अपलोड ट्रेंड",
+    loggedInInvestigator: "जाँचकर्ता के रूप में लॉग इन · पूर्ण विशेषाधिकार सक्रिय",
+    caseStatusChart: "केस स्थिति",
+    evidenceItemsText: "साक्ष्य आइटम",
+    stepLabel: "चरण",
   },
 } as const;
 

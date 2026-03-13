@@ -20,57 +20,54 @@ class WebGLErrorBoundary extends Component<
   }
 }
 
-// Bigger TorusKnot, faster rotation, more visible opacity
 function TorusKnotMesh() {
   const ref = useRef<THREE.Mesh>(null);
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
     if (ref.current) {
-      ref.current.rotation.y = t * 0.38;
-      ref.current.rotation.x = t * 0.16;
-      ref.current.rotation.z = t * 0.09;
+      ref.current.rotation.y = t * 0.18;
+      ref.current.rotation.x = t * 0.08;
+      ref.current.rotation.z = t * 0.05;
     }
   });
   return (
     <mesh ref={ref} position={[0, 0, -8]}>
       <torusKnotGeometry args={[7.5, 1.7, 180, 32]} />
-      <meshBasicMaterial color="#DC2626" wireframe transparent opacity={0.42} />
+      <meshBasicMaterial color="#DC2626" wireframe transparent opacity={0.28} />
     </mesh>
   );
 }
 
-// Bigger sphere, more visible
 function SphereMesh() {
   const ref = useRef<THREE.Mesh>(null);
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
     if (ref.current) {
-      ref.current.rotation.y = -t * 0.14;
-      ref.current.rotation.x = t * 0.08;
+      ref.current.rotation.y = -t * 0.07;
+      ref.current.rotation.x = t * 0.04;
     }
   });
   return (
     <mesh ref={ref} position={[0, 0, -8]}>
       <sphereGeometry args={[10, 20, 16]} />
-      <meshBasicMaterial color="#DC2626" wireframe transparent opacity={0.13} />
+      <meshBasicMaterial color="#DC2626" wireframe transparent opacity={0.1} />
     </mesh>
   );
 }
 
-// Bigger icosahedron, faster spin
 function IcosahedronMesh() {
   const ref = useRef<THREE.Mesh>(null);
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
     if (ref.current) {
-      ref.current.rotation.x = t * 0.28;
-      ref.current.rotation.y = t * 0.22;
+      ref.current.rotation.x = t * 0.13;
+      ref.current.rotation.y = t * 0.1;
     }
   });
   return (
     <mesh ref={ref} position={[0, 0, -6]}>
       <icosahedronGeometry args={[5, 1]} />
-      <meshBasicMaterial color="#ff4444" wireframe transparent opacity={0.18} />
+      <meshBasicMaterial color="#ff4444" wireframe transparent opacity={0.14} />
     </mesh>
   );
 }
@@ -83,7 +80,7 @@ function Particles() {
       x: (Math.random() - 0.5) * 28,
       y: (Math.random() - 0.5) * 28,
       z: -12 + Math.random() * 4,
-      speed: 0.5 + Math.random() * 0.6,
+      speed: 0.25 + Math.random() * 0.3,
       offset: Math.random() * Math.PI * 2,
     })),
   );
@@ -111,7 +108,7 @@ function Particles() {
           position={[p.x, p.y, p.z]}
         >
           <octahedronGeometry args={[0.15, 0]} />
-          <meshBasicMaterial color="#ff2222" transparent opacity={0.65} />
+          <meshBasicMaterial color="#ff2222" transparent opacity={0.35} />
         </mesh>
       ))}
     </>
@@ -127,14 +124,14 @@ const squareData = Array.from({ length: 36 }, (_, idx) => {
     y: -15 + Math.random() * 30,
     z: -8 + Math.random() * 3,
     size: 0.1 + Math.random() * 0.32,
-    speed: 0.8 + Math.random() * 1.4,
+    speed: 0.4 + Math.random() * 0.7,
     swayAmp: 0.15 + Math.random() * 0.35,
     swayFreq: 0.4 + Math.random() * 0.6,
     rotSpeed: (Math.random() - 0.5) * 1.8,
     color: ["#DC2626", "#ff4444", "#ff2222", "#b91c1c"][
       Math.floor(Math.random() * 4)
     ],
-    opacity: 0.38 + Math.random() * 0.45,
+    opacity: 0.22 + Math.random() * 0.2,
     phase: Math.random() * Math.PI * 2,
   };
 });

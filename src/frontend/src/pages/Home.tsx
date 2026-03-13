@@ -17,6 +17,7 @@ import { useEffect, useRef, useState } from "react";
 import type { ComponentType, SVGProps } from "react";
 import CharSplitHeading from "../components/CharSplitHeading";
 import Footer from "../components/Footer";
+import HomeExtraBG from "../components/HomeExtraBG";
 import ScrollytellingSection from "../components/ScrollytellingSection";
 import ThreeScene from "../components/ThreeScene";
 import { useLang } from "../contexts/LanguageContext";
@@ -168,32 +169,32 @@ export default function Home() {
     {
       icon: Shield,
       title: t("secureStorage"),
-      desc: "Immutable evidence storage backed by cryptographic proofs and decentralized blockchain technology.",
+      desc: t("secureStorageDesc"),
     },
     {
       icon: Hash,
       title: t("hashIntegrity"),
-      desc: "Every file gets a unique SHA-256 fingerprint computed client-side, stored permanently on-chain.",
+      desc: t("hashIntegrityDesc"),
     },
     {
       icon: Users,
       title: t("roleAccess"),
-      desc: "Granular permissions for Admins, Investigators, and Officers. No unauthorized access.",
+      desc: t("roleAccessDesc"),
     },
     {
       icon: Link2,
       title: t("chainCustody"),
-      desc: "Every action is timestamped and logged — creating an unbreakable chain of custody.",
+      desc: t("chainCustodyDesc"),
     },
     {
       icon: CheckCircle,
       title: t("realTimeVerify"),
-      desc: "Verify evidence integrity instantly by comparing live-computed hashes with stored records.",
+      desc: t("realTimeVerifyDesc"),
     },
     {
       icon: Building2,
       title: t("multiAgency"),
-      desc: "Built for law enforcement, forensic labs, and judicial authorities to collaborate securely.",
+      desc: t("multiAgencyDesc"),
     },
   ];
 
@@ -255,7 +256,10 @@ export default function Home() {
   };
 
   return (
-    <div style={{ background: "#0a0a0f" }}>
+    <div style={{ background: "#0a0a0f", position: "relative" }}>
+      {/* Subtle full-page extra 3D BG — galaxy rings + particles */}
+      <HomeExtraBG />
+
       {/* Hero */}
       <section
         ref={heroRef}
@@ -350,7 +354,6 @@ export default function Home() {
           className="cyber-grid"
           style={{ position: "absolute", inset: 0, zIndex: 0, opacity: 0.5 }}
         />
-        {/* 3D rotating background */}
         <div
           style={{
             position: "absolute",
@@ -407,7 +410,6 @@ export default function Home() {
             SYSTEM ONLINE — SECURE CONNECTION ESTABLISHED
           </motion.div>
 
-          {/* Word-by-word hero title */}
           <motion.h1
             variants={containerVariants}
             initial="hidden"
@@ -485,8 +487,11 @@ export default function Home() {
         />
       </section>
 
-      {/* Stats with staggered entrance */}
-      <section className="py-16 px-4">
+      {/* Stats */}
+      <section
+        className="py-16 px-4"
+        style={{ position: "relative", zIndex: 1 }}
+      >
         <div className="max-w-5xl mx-auto">
           <motion.div
             className="grid grid-cols-2 md:grid-cols-4 gap-6"
@@ -540,10 +545,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features — Core Capabilities with floating squares background */}
+      {/* Features — Core Capabilities */}
       <section
         className="py-20 px-4 cyber-grid"
-        style={{ position: "relative" }}
+        style={{ position: "relative", zIndex: 1 }}
       >
         <CoreCapabilitiesBG />
         <div
@@ -560,14 +565,13 @@ export default function Home() {
               className="section-heading text-3xl md:text-4xl mb-4"
               style={{ color: "#f0f0f0" }}
             >
-              <CharSplitHeading text="Core " />
+              <CharSplitHeading text={t("coreCapabilitiesTitle1")} />
               <span style={{ color: "#DC2626" }}>
-                <CharSplitHeading text="Capabilities" />
+                <CharSplitHeading text={t("coreCapabilitiesTitle2")} />
               </span>
             </h2>
             <p style={{ color: "rgba(240,240,240,0.5)" }}>
-              Built to meet the rigorous demands of digital forensics and legal
-              proceedings.
+              {t("coreCapabilitiesSubtitle")}
             </p>
           </motion.div>
 
@@ -612,11 +616,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Scrollytelling Section — between Features and How It Works */}
       <ScrollytellingSection />
 
       {/* How it works */}
-      <section className="py-20 px-4">
+      <section
+        className="py-20 px-4"
+        style={{ position: "relative", zIndex: 1 }}
+      >
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -656,7 +662,7 @@ export default function Home() {
                   className="font-mono text-xs mb-2"
                   style={{ color: "rgba(220,38,38,0.7)" }}
                 >
-                  STEP {s.num}
+                  {t("stepLabel")} {s.num}
                 </div>
                 <h3
                   className="font-display font-semibold text-lg mb-2"

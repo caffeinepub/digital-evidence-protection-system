@@ -178,7 +178,7 @@ export default function UserPortal() {
                 margin: "0 0 10px",
               }}
             >
-              CITIZEN COMPLAINT PORTAL
+              {t("citizenComplaintPortal").toUpperCase()}
             </h1>
             <p
               style={{
@@ -337,7 +337,7 @@ export default function UserPortal() {
                       marginBottom: 8,
                     }}
                   >
-                    Complaint Filed Successfully
+                    {t("complaintSuccess")}
                   </h3>
                   <p
                     style={{
@@ -346,8 +346,7 @@ export default function UserPortal() {
                       fontFamily: "'General Sans', sans-serif",
                     }}
                   >
-                    Your complaint has been registered. You will receive a Case
-                    ID within 24 hours.
+                    {t("complaintSuccessDesc")}
                   </p>
                   <Button
                     onClick={() => setSubmitted(false)}
@@ -358,7 +357,7 @@ export default function UserPortal() {
                       color: "#16A34A",
                     }}
                   >
-                    File Another
+                    {t("fileAnother")}
                   </Button>
                 </motion.div>
               ) : (
@@ -368,13 +367,13 @@ export default function UserPortal() {
                       label: t("fullName"),
                       key: "name",
                       type: "text",
-                      placeholder: "Enter your full name",
+                      placeholder: t("fullNamePlaceholder"),
                     },
                     {
                       label: t("contactEmail"),
                       key: "contact",
                       type: "email",
-                      placeholder: "Enter your email or phone",
+                      placeholder: t("contactPlaceholder"),
                     },
                     {
                       label: t("incidentDate"),
@@ -453,7 +452,7 @@ export default function UserPortal() {
                             : "rgba(240,240,240,0.35)",
                         }}
                       >
-                        <SelectValue placeholder="Select scam type" />
+                        <SelectValue placeholder={t("selectScamType")} />
                       </SelectTrigger>
                       <SelectContent
                         style={{

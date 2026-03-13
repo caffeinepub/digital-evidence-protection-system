@@ -6,22 +6,35 @@ interface CharSplitHeadingProps {
   style?: React.CSSProperties;
 }
 
+function getGraphemeClusters(text: string): string[] {
+  try {
+    const segmenter = new Intl.Segmenter(undefined, {
+      granularity: "grapheme",
+    });
+    return [...segmenter.segment(text)].map((s) => s.segment);
+  } catch {
+    return [...text];
+  }
+}
+
 export default function CharSplitHeading({
   text,
   className,
   style,
 }: CharSplitHeadingProps) {
-  const chars = text
-    .split("")
-    .map((char, i) => ({ char, key: `char-pos-${i}` }));
+  const chars = getGraphemeClusters(text).map((char, i) => ({
+    char,
+    key: `char-pos-${i}`,
+  }));
 
   return (
     <motion.span
+      key={text}
       className={className}
       style={{ display: "inline-block", ...style }}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.5 }}
+      viewport={{ once: false, amount: 0.5 }}
       variants={{
         hidden: {},
         visible: {

@@ -276,7 +276,7 @@ export default function InvestigatorDashboard() {
                   margin: 0,
                 }}
               >
-                INVESTIGATOR PORTAL
+                {t("investigatorPortal").toUpperCase()}
               </h1>
               <motion.span
                 animate={{ scale: [1, 1.05, 1] }}
@@ -293,7 +293,7 @@ export default function InvestigatorDashboard() {
                   color: "#DC2626",
                 }}
               >
-                RESTRICTED ACCESS
+                {t("restrictedAccess").toUpperCase()}
               </motion.span>
             </div>
             <p
@@ -304,7 +304,7 @@ export default function InvestigatorDashboard() {
                 marginTop: 8,
               }}
             >
-              Logged in as Investigator · Full privileges active
+              {t("loggedInInvestigator")}
             </p>
           </motion.div>
 
@@ -448,11 +448,11 @@ export default function InvestigatorDashboard() {
                   <thead>
                     <tr>
                       {[
-                        "File Name",
-                        "Type",
-                        "SHA-256 Hash",
-                        "Status",
-                        "Timestamp",
+                        t("fileName"),
+                        t("fileType"),
+                        t("sha256Hash"),
+                        t("status"),
+                        t("timestamp"),
                       ].map((h) => (
                         <th
                           key={h}
@@ -538,7 +538,7 @@ export default function InvestigatorDashboard() {
                               color: "#16A34A",
                             }}
                           >
-                            ACTIVE
+                            {t("active").toUpperCase()}
                           </span>
                         </td>
                         <td
@@ -640,7 +640,7 @@ export default function InvestigatorDashboard() {
                           >
                             Case #{i + 1} ·{" "}
                             {"evidenceIds" in c ? c.evidenceIds.length : 2}{" "}
-                            evidence items
+                            {t("evidenceItemsText")}
                           </p>
                         </div>
                         <span
@@ -694,7 +694,7 @@ export default function InvestigatorDashboard() {
                       letterSpacing: "0.1em",
                     }}
                   >
-                    CASE STATUS
+                    {t("caseStatusChart").toUpperCase()}
                   </p>
                   <ResponsiveContainer width="100%" height={200}>
                     <PieChart>
@@ -737,7 +737,7 @@ export default function InvestigatorDashboard() {
                       letterSpacing: "0.1em",
                     }}
                   >
-                    EVIDENCE BY TYPE
+                    {t("evidenceByType").toUpperCase()}
                   </p>
                   <ResponsiveContainer width="100%" height={200}>
                     <BarChart data={barData}>
@@ -835,6 +835,7 @@ function CaseCard({
   onSeal: () => void;
   index: number;
 }) {
+  const { t } = useLang();
   return (
     <motion.div
       initial={{ opacity: 0, x: -24 }}
@@ -883,7 +884,7 @@ function CaseCard({
             }}
           >
             Case #{String(caseItem.caseId)} · {caseItem.evidenceIds.length}{" "}
-            evidence items
+            {t("evidenceItemsText")}
           </p>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -896,7 +897,7 @@ function CaseCard({
               fontFamily: "'JetBrains Mono', monospace",
             }}
           >
-            OPEN
+            {t("open").toUpperCase()}
           </Badge>
           <span style={{ color: "rgba(240,240,240,0.4)", fontSize: 16 }}>
             {expanded ? "▲" : "▼"}
@@ -954,7 +955,7 @@ function CaseCard({
               color: "#DC2626",
             }}
           >
-            Seal Case
+            {t("sealCase")}
           </Button>
         </motion.div>
       )}

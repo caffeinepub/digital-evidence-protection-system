@@ -1,6 +1,7 @@
 import { Hash, Link2, Shield } from "lucide-react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
+import { useLang } from "../contexts/LanguageContext";
 
 interface Panel {
   id: string;
@@ -16,50 +17,60 @@ interface Panel {
   bgGlow: string;
 }
 
-const panels: Panel[] = [
-  {
-    id: "panel-1",
-    icon: Shield,
-    title: "Evidence",
-    subtitle: "SECURED",
-    desc: "Every digital artifact is encrypted, timestamped, and sealed with immutable cryptographic proof. No tampering. No doubt. Forever preserved on-chain.",
-    glowColor: "rgba(220,38,38,0.6)",
-    textColor: "#DC2626",
-    bgGlow:
-      "radial-gradient(ellipse at center, rgba(220,38,38,0.12) 0%, transparent 70%)",
-  },
-  {
-    id: "panel-2",
-    icon: Hash,
-    title: "Hash",
-    subtitle: "VERIFIED",
-    desc: "SHA-256 fingerprints computed client-side and locked permanently. Any byte-level modification is instantly detectable — integrity that withstands judicial scrutiny.",
-    glowColor: "rgba(22,163,74,0.6)",
-    textColor: "#16A34A",
-    bgGlow:
-      "radial-gradient(ellipse at center, rgba(22,163,74,0.12) 0%, transparent 70%)",
-  },
-  {
-    id: "panel-3",
-    icon: Link2,
-    title: "Chain",
-    subtitle: "LOCKED",
-    desc: "An unbreakable chain of custody. Every transfer, access, and modification recorded with who, when, and why. Complete audit trail from evidence collection to courtroom.",
-    glowColor: "rgba(59,130,246,0.6)",
-    textColor: "#3B82F6",
-    bgGlow:
-      "radial-gradient(ellipse at center, rgba(59,130,246,0.12) 0%, transparent 70%)",
-  },
-];
-
 export default function ScrollytellingSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
   });
+  const { lang } = useLang();
 
   const parallaxY = useTransform(scrollYProgress, [0, 1], [0, -80]);
+
+  const panels: Panel[] = [
+    {
+      id: "panel-1",
+      icon: Shield,
+      title: lang === "hi" ? "साक्ष्य" : "Evidence",
+      subtitle: lang === "hi" ? "सुरक्षित" : "SECURED",
+      desc:
+        lang === "hi"
+          ? "हर डिजिटल साक्ष्य को एन्क्रिप्ट, टाइमस्टैम्प और अपरिवर्तनीय क्रिप्टोग्राफिक प्रमाण से सील किया जाता है। कोई छेड़छाड़ नहीं। कोई संदेह नहीं। सदा के लिए सुरक्षित।"
+          : "Every digital artifact is encrypted, timestamped, and sealed with immutable cryptographic proof. No tampering. No doubt. Forever preserved on-chain.",
+      glowColor: "rgba(220,38,38,0.6)",
+      textColor: "#DC2626",
+      bgGlow:
+        "radial-gradient(ellipse at center, rgba(220,38,38,0.12) 0%, transparent 70%)",
+    },
+    {
+      id: "panel-2",
+      icon: Hash,
+      title: lang === "hi" ? "हैश" : "Hash",
+      subtitle: lang === "hi" ? "सत्यापित" : "VERIFIED",
+      desc:
+        lang === "hi"
+          ? "SHA-256 फिंगरप्रिंट क्लाइंट-साइड पर कंप्यूट किए जाते हैं और स्थायी रूप से लॉक होते हैं। कोई भी बाइट-स्तरीय बदलाव तुरंत पकड़ा जाता है — अखंडता जो न्यायिक जांच में भी खरी उतरती है।"
+          : "SHA-256 fingerprints computed client-side and locked permanently. Any byte-level modification is instantly detectable — integrity that withstands judicial scrutiny.",
+      glowColor: "rgba(22,163,74,0.6)",
+      textColor: "#16A34A",
+      bgGlow:
+        "radial-gradient(ellipse at center, rgba(22,163,74,0.12) 0%, transparent 70%)",
+    },
+    {
+      id: "panel-3",
+      icon: Link2,
+      title: lang === "hi" ? "श्रृंखला" : "Chain",
+      subtitle: lang === "hi" ? "लॉक्ड" : "LOCKED",
+      desc:
+        lang === "hi"
+          ? "अटूट अभिरक्षा श्रृंखला। हर ट्रांसफर, एक्सेस और बदलाव — कब, किसने और क्यों — सब दर्ज। साक्ष्य संग्रह से कोर्टरूम तक पूर्ण ऑडिट ट्रेल।"
+          : "An unbreakable chain of custody. Every transfer, access, and modification recorded with who, when, and why. Complete audit trail from evidence collection to courtroom.",
+      glowColor: "rgba(59,130,246,0.6)",
+      textColor: "#3B82F6",
+      bgGlow:
+        "radial-gradient(ellipse at center, rgba(59,130,246,0.12) 0%, transparent 70%)",
+    },
+  ];
 
   return (
     <div
@@ -117,14 +128,16 @@ export default function ScrollytellingSection() {
             zIndex: 20,
           }}
         >
-          ▶ SCROLLYTELLING — DIGITAL EVIDENCE LIFECYCLE
+          {lang === "hi"
+            ? "▶ डिजिटल साक्ष्य जीवनचक्र"
+            : "▶ SCROLLYTELLING — DIGITAL EVIDENCE LIFECYCLE"}
         </div>
 
         {/* Progress beam */}
         <ScrollProgressBeam scrollYProgress={scrollYProgress} />
 
         {/* Panels */}
-        <ScrollPanels scrollYProgress={scrollYProgress} />
+        <ScrollPanels scrollYProgress={scrollYProgress} panels={panels} />
       </div>
     </div>
   );
@@ -184,8 +197,10 @@ function ScrollProgressBeam({
 
 function ScrollPanels({
   scrollYProgress,
+  panels,
 }: {
   scrollYProgress: ReturnType<typeof useScroll>["scrollYProgress"];
+  panels: Panel[];
 }) {
   const p1Opacity = useTransform(
     scrollYProgress,

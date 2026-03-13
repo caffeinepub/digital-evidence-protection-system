@@ -184,7 +184,7 @@ export default function OfficerDashboard() {
                   margin: 0,
                 }}
               >
-                OFFICER FIELD PORTAL
+                {t("officerFieldPortal").toUpperCase()}
               </h1>
               <motion.span
                 animate={{ scale: [1, 1.05, 1] }}
@@ -201,7 +201,7 @@ export default function OfficerDashboard() {
                   color: "#16A34A",
                 }}
               >
-                FIELD ACCESS
+                {t("fieldAccess").toUpperCase()}
               </motion.span>
               <motion.span
                 animate={{ opacity: [1, 0.4, 1] }}
@@ -224,7 +224,7 @@ export default function OfficerDashboard() {
                     display: "inline-block",
                   }}
                 />
-                ACTIVE DUTY
+                {t("activeDuty").toUpperCase()}
               </motion.span>
             </div>
           </motion.div>
@@ -250,7 +250,8 @@ export default function OfficerDashboard() {
                   letterSpacing: "0.08em",
                 }}
               >
-                <Upload className="w-4 h-4 mr-2" /> UPLOAD EVIDENCE
+                <Upload className="w-4 h-4 mr-2" />{" "}
+                {t("uploadEvidence2").toUpperCase()}
               </Button>
             </Link>
             <Link to="/verify">
@@ -264,7 +265,8 @@ export default function OfficerDashboard() {
                   letterSpacing: "0.08em",
                 }}
               >
-                <ShieldCheck className="w-4 h-4 mr-2" /> VERIFY EVIDENCE
+                <ShieldCheck className="w-4 h-4 mr-2" />{" "}
+                {t("verifyEvidence2").toUpperCase()}
               </Button>
             </Link>
           </div>
@@ -353,10 +355,10 @@ export default function OfficerDashboard() {
                   }}
                 >
                   {tab === "evidence"
-                    ? "My Evidence"
+                    ? t("myEvidence")
                     : tab === "cases"
                       ? t("assignedCases")
-                      : "Field Notes"}
+                      : t("fieldNotes")}
                 </TabsTrigger>
               ))}
             </TabsList>
@@ -431,7 +433,7 @@ export default function OfficerDashboard() {
                           color: "#16A34A",
                         }}
                       >
-                        ACTIVE
+                        {t("active").toUpperCase()}
                       </span>
                     </motion.div>
                   ),
@@ -500,7 +502,7 @@ export default function OfficerDashboard() {
                               fontSize: 10,
                             }}
                           >
-                            Evidence count:{" "}
+                            {t("evidenceCount")}:{" "}
                             {"evidenceIds" in c ? c.evidenceIds.length : 2}
                           </p>
                         </div>
@@ -515,7 +517,7 @@ export default function OfficerDashboard() {
                             color: "#DC2626",
                           }}
                         >
-                          ASSIGNED
+                          {t("assigned").toUpperCase()}
                         </span>
                       </div>
                     </motion.div>
@@ -551,7 +553,7 @@ export default function OfficerDashboard() {
                     letterSpacing: "0.08em",
                   }}
                 >
-                  SAVE NOTE
+                  {t("saveNote").toUpperCase()}
                 </Button>
               </div>
               <div style={{ display: "grid", gap: 12 }}>

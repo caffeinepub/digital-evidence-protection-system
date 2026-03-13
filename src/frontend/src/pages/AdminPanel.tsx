@@ -41,8 +41,10 @@ type RecordStatus =
 interface CaseRecord {
   id: string;
   title: string;
+  titleHi: string;
   status: RecordStatus;
   type: string;
+  typeHi: string;
   date: string;
   officer: string;
 }
@@ -51,80 +53,100 @@ const FAKE_RECORDS: CaseRecord[] = [
   {
     id: "DEPS-2024-0091",
     title: "Rajesh Kumar Phishing Case",
+    titleHi: "राजेश कुमार फिशिंग मामला",
     status: "In Progress",
     type: "Phishing",
+    typeHi: "फिशिंग",
     date: "2024-01-15",
     officer: "SI Vikram Singh",
   },
   {
     id: "DEPS-2024-0092",
     title: "Meena Sharma Financial Fraud",
+    titleHi: "मीना शर्मा वित्तीय धोखाधड़ी",
     status: "Pending",
     type: "Financial Fraud",
+    typeHi: "वित्तीय धोखाधड़ी",
     date: "2024-01-17",
     officer: "ASI Priya Yadav",
   },
   {
     id: "DEPS-2024-0093",
     title: "Arun Patel Identity Theft",
+    titleHi: "अरुण पटेल पहचान चोरी",
     status: "Verified",
     type: "Identity Theft",
+    typeHi: "पहचान चोरी",
     date: "2024-01-18",
     officer: "SI Deepak Tiwari",
   },
   {
     id: "DEPS-2024-0094",
     title: "Sunita Devi Online Scam",
+    titleHi: "सुनीता देवी ऑनलाइन स्कैम",
     status: "Under Review",
     type: "Online Shopping Scam",
+    typeHi: "ऑनलाइन शॉपिंग स्कैम",
     date: "2024-01-20",
     officer: "ASI Nisha Gupta",
   },
   {
     id: "DEPS-2024-0095",
     title: "Amit Joshi Investment Fraud",
+    titleHi: "अमित जोशी निवेश धोखाधड़ी",
     status: "In Progress",
     type: "Investment Scam",
+    typeHi: "निवेश धोखाधड़ी",
     date: "2024-01-22",
     officer: "SI Rahul Mehra",
   },
   {
     id: "DEPS-2024-0096",
     title: "Kavita Singh Lottery Scam",
+    titleHi: "कविता सिंह लॉटरी स्कैम",
     status: "Pending",
     type: "Lottery Scam",
+    typeHi: "लॉटरी स्कैम",
     date: "2024-01-24",
     officer: "ASI Suresh Kumar",
   },
   {
     id: "DEPS-2024-0097",
     title: "Rohit Verma Ransomware",
+    titleHi: "रोहित वर्मा रैनसमवेयर",
     status: "Closed",
     type: "Ransomware",
+    typeHi: "रैनसमवेयर",
     date: "2024-01-25",
     officer: "SI Anjali Sharma",
   },
   {
     id: "DEPS-2024-0098",
     title: "Priya Mishra Job Fraud",
+    titleHi: "प्रिया मिश्रा नौकरी धोखाधड़ी",
     status: "In Progress",
     type: "Job Fraud",
+    typeHi: "नौकरी धोखाधड़ी",
     date: "2024-01-27",
     officer: "ASI Mohit Pandey",
   },
   {
     id: "DEPS-2024-0099",
     title: "Suresh Nair Cyber Bullying",
+    titleHi: "सुरेश नायर साइबर बुलिंग",
     status: "Under Review",
     type: "Cyber Bullying",
+    typeHi: "साइबर बुलिंग",
     date: "2024-01-28",
     officer: "SI Rekha Iyer",
   },
   {
     id: "DEPS-2024-0100",
     title: "Anita Khanna Romance Scam",
+    titleHi: "अनीता खन्ना रोमांस स्कैम",
     status: "Verified",
     type: "Romance Scam",
+    typeHi: "रोमांस स्कैम",
     date: "2024-01-30",
     officer: "ASI Karan Malhotra",
   },
@@ -161,7 +183,7 @@ const STATUS_STYLES: Record<
   },
 };
 
-const EVIDENCE_BY_TYPE = [
+const EVIDENCE_BY_TYPE_EN = [
   { name: "Phishing", count: 23 },
   { name: "Financial", count: 31 },
   { name: "Identity", count: 18 },
@@ -172,13 +194,30 @@ const EVIDENCE_BY_TYPE = [
   { name: "Romance", count: 11 },
 ];
 
-const CASE_STATUS_DIST = [
+const EVIDENCE_BY_TYPE_HI = [
+  { name: "फिशिंग", count: 23 },
+  { name: "वित्तीय", count: 31 },
+  { name: "पहचान", count: 18 },
+  { name: "शॉपिंग", count: 14 },
+  { name: "निवेश", count: 22 },
+  { name: "नौकरी", count: 17 },
+  { name: "रैनसम", count: 12 },
+  { name: "रोमांस", count: 11 },
+];
+
+const CASE_STATUS_DIST_EN = [
   { name: "Active", value: 37, fill: "#DC2626" },
   { name: "Pending", value: 52, fill: "#fb923c" },
   { name: "Verified", value: 59, fill: "#4ade80" },
 ];
 
-const UPLOAD_TREND = [
+const CASE_STATUS_DIST_HI = [
+  { name: "सक्रिय", value: 37, fill: "#DC2626" },
+  { name: "लंबित", value: 52, fill: "#fb923c" },
+  { name: "सत्यापित", value: 59, fill: "#4ade80" },
+];
+
+const UPLOAD_TREND_EN = [
   { day: "Mon", uploads: 12 },
   { day: "Tue", uploads: 19 },
   { day: "Wed", uploads: 15 },
@@ -186,6 +225,16 @@ const UPLOAD_TREND = [
   { day: "Fri", uploads: 22 },
   { day: "Sat", uploads: 9 },
   { day: "Sun", uploads: 7 },
+];
+
+const UPLOAD_TREND_HI = [
+  { day: "सोम", uploads: 12 },
+  { day: "मंगल", uploads: 19 },
+  { day: "बुध", uploads: 15 },
+  { day: "गुरु", uploads: 28 },
+  { day: "शुक्र", uploads: 22 },
+  { day: "शनि", uploads: 9 },
+  { day: "रवि", uploads: 7 },
 ];
 
 function CountUp({
@@ -259,8 +308,10 @@ function ChartCard({
 export default function AdminPanel() {
   const { t, lang } = useLang();
 
+  const isHi = lang === "hi";
+
   const getStatusLabel = (status: RecordStatus): string => {
-    if (lang === "hi") {
+    if (isHi) {
       const map: Record<RecordStatus, string> = {
         "In Progress": t("statusInProgress"),
         Pending: t("statusPending"),
@@ -272,6 +323,10 @@ export default function AdminPanel() {
     }
     return status;
   };
+
+  const EVIDENCE_BY_TYPE = isHi ? EVIDENCE_BY_TYPE_HI : EVIDENCE_BY_TYPE_EN;
+  const CASE_STATUS_DIST = isHi ? CASE_STATUS_DIST_HI : CASE_STATUS_DIST_EN;
+  const UPLOAD_TREND = isHi ? UPLOAD_TREND_HI : UPLOAD_TREND_EN;
 
   const stats = [
     {
@@ -330,7 +385,7 @@ export default function AdminPanel() {
                 color: "#DC2626",
               }}
             >
-              ▸ ADMIN ACCESS
+              {isHi ? "▸ एडमिन एक्सेस" : "▸ ADMIN ACCESS"}
             </div>
             <h1
               className="font-display font-bold text-3xl md:text-4xl"
@@ -452,7 +507,7 @@ export default function AdminPanel() {
                             className="px-4 py-3 max-w-[200px] truncate"
                             style={{ color: "#f0f0f0" }}
                           >
-                            {rec.title}
+                            {isHi ? rec.titleHi : rec.title}
                           </td>
                           <td className="px-4 py-3">
                             <Badge
@@ -470,7 +525,7 @@ export default function AdminPanel() {
                             className="px-4 py-3 text-xs"
                             style={{ color: "rgba(240,240,240,0.65)" }}
                           >
-                            {rec.type}
+                            {isHi ? rec.typeHi : rec.type}
                           </td>
                           <td
                             className="px-4 py-3 font-mono text-xs"
