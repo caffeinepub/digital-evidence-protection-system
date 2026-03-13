@@ -28,21 +28,21 @@ export default function Contact() {
   const contactInfo = [
     {
       icon: Mail,
-      label: "Email",
+      label: t("emailContactLabel"),
       value: "support@deps.gov.in",
-      sub: "Response within 24 hours",
+      sub: t("responseTime"),
     },
     {
       icon: Phone,
-      label: "Helpline",
+      label: t("helplineLabel"),
       value: "+91 1800-DEPS-GOV",
-      sub: "Mon–Fri, 9AM–6PM IST",
+      sub: t("helplineHours"),
     },
     {
       icon: MapPin,
-      label: "HQ",
+      label: t("hqLabel"),
       value: "Cyber Crimes Division, New Delhi",
-      sub: "Ministry of Home Affairs",
+      sub: t("ministryLabel"),
     },
   ];
 
@@ -77,8 +77,7 @@ export default function Contact() {
                   margin: "0 auto",
                 }}
               >
-                Reach out to the DEPS team for support, onboarding, or technical
-                inquiries.
+                {t("contactSubtitle")}
               </p>
             </motion.div>
 
@@ -102,10 +101,10 @@ export default function Contact() {
                       className="font-display font-bold text-xl mb-2"
                       style={{ color: "#16A34A" }}
                     >
-                      Message Sent!
+                      {t("messageSentTitle")}
                     </h3>
                     <p style={{ color: "rgba(240,240,240,0.6)" }}>
-                      We'll get back to you within 24 hours.
+                      {t("getBackSoon")}
                     </p>
                     <button
                       type="button"
@@ -113,7 +112,7 @@ export default function Contact() {
                       style={{ color: "#16A34A", textDecoration: "underline" }}
                       onClick={() => setSent(false)}
                     >
-                      Send another message
+                      {t("sendAnother")}
                     </button>
                   </div>
                 ) : (
@@ -122,7 +121,7 @@ export default function Contact() {
                       className="font-display font-semibold text-xl mb-6"
                       style={{ color: "#f0f0f0" }}
                     >
-                      Send a Message
+                      {t("sendAMessage")}
                     </h2>
                     <div className="space-y-4">
                       <div>
@@ -194,7 +193,7 @@ export default function Contact() {
                         {sending ? (
                           <>
                             <Loader2 className="mr-2 w-4 h-4 animate-spin" />{" "}
-                            Sending...
+                            {t("sendingLabel")}
                           </>
                         ) : (
                           <>

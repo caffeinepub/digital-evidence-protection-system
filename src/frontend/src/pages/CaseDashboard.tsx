@@ -6,18 +6,23 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  AlertTriangle,
   ChevronDown,
   ChevronRight,
   Clock,
   FolderOpen,
+  IndianRupee,
   Loader2,
   Lock,
   Plus,
   Search,
   Shield,
+  TrendingUp,
+  UserCheck,
+  Users,
 } from "lucide-react";
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import type { CaseRecord } from "../backend";
 import Footer from "../components/Footer";
@@ -27,8 +32,147 @@ import { MOCK_CASES } from "../data/mockData";
 import { useActor } from "../hooks/useActor";
 import { formatTimestamp } from "../utils/crypto";
 
+// Animated count-up hook
+function useCountUp(target: number, duration = 1400, delay = 0) {
+  const [val, setVal] = useState(0);
+  const raf = useRef<number | null>(null);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      const start = performance.now();
+      const tick = (now: number) => {
+        const p = Math.min((now - start) / duration, 1);
+        const ease = 1 - (1 - p) ** 3;
+        setVal(Math.round(ease * target));
+        if (p < 1) raf.current = requestAnimationFrame(tick);
+      };
+      raf.current = requestAnimationFrame(tick);
+    }, delay);
+    return () => {
+      clearTimeout(timeout);
+      if (raf.current) cancelAnimationFrame(raf.current);
+    };
+  }, [target, duration, delay]);
+  return val;
+}
+
+function getFakeActivityLog(t: (k: string) => string) {
+  return [
+    {
+      id: "a1",
+      text: t("activityLog_a1"),
+      time: t("activityLog_time1"),
+      color: "#16A34A",
+    },
+    {
+      id: "a2",
+      text: t("activityLog_a2"),
+      time: t("activityLog_time2"),
+      color: "#16A34A",
+    },
+    {
+      id: "a3",
+      text: t("activityLog_a3"),
+      time: t("activityLog_time3"),
+      color: "#DC2626",
+    },
+    {
+      id: "a4",
+      text: t("activityLog_a4"),
+      time: t("activityLog_time4"),
+      color: "#FBBF24",
+    },
+    {
+      id: "a5",
+      text: t("activityLog_a5"),
+      time: t("activityLog_time5"),
+      color: "#16A34A",
+    },
+    {
+      id: "a6",
+      text: t("activityLog_a6"),
+      time: t("activityLog_time6"),
+      color: "#DC2626",
+    },
+    {
+      id: "a7",
+      text: t("activityLog_a7"),
+      time: t("activityLog_time7"),
+      color: "#FBBF24",
+    },
+    {
+      id: "a8",
+      text: t("activityLog_a8"),
+      time: t("activityLog_time8"),
+      color: "#DC2626",
+    },
+    {
+      id: "a9",
+      text: t("activityLog_a9"),
+      time: t("activityLog_time9"),
+      color: "#16A34A",
+    },
+    {
+      id: "a10",
+      text: t("activityLog_a10"),
+      time: t("activityLog_time10"),
+      color: "#16A34A",
+    },
+  ];
+}
+
+function KeyMetricCard({
+  label,
+  rawValue,
+  display,
+  icon: Icon,
+  color,
+  delay,
+}: {
+  label: string;
+  rawValue: number;
+  display?: string;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  color: string;
+  delay: number;
+}) {
+  const counted = useCountUp(rawValue, 1400, delay);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: delay / 1000, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ scale: 1.04, transition: { duration: 0.15 } }}
+      className="glass p-5"
+      style={{
+        background: "rgba(255,255,255,0.03)",
+        border: `1px solid ${color}30`,
+        borderRadius: 12,
+      }}
+    >
+      <div
+        className="w-9 h-9 rounded-lg flex items-center justify-center mb-3"
+        style={{ background: `${color}18` }}
+      >
+        <Icon className="w-5 h-5" style={{ color }} />
+      </div>
+      <div
+        className="font-display font-bold text-2xl leading-none mb-1"
+        style={{ color: "#f0f0f0" }}
+      >
+        {display
+          ? display.replace(/\d+/, counted.toLocaleString("en-IN"))
+          : counted.toLocaleString("en-IN")}
+      </div>
+      <div className="text-xs" style={{ color: "rgba(240,240,240,0.45)" }}>
+        {label}
+      </div>
+    </motion.div>
+  );
+}
+
 export default function CaseDashboard() {
   const { t } = useLang();
+  const fakeActivityLog = getFakeActivityLog(t as (k: string) => string);
   const { actor, isFetching } = useActor();
   const qc = useQueryClient();
 
@@ -78,9 +222,11 @@ export default function CaseDashboard() {
       c.caseId.toString().includes(search),
   );
 
-  const open = cases.filter((c) => c.status === "open").length;
-  const closed = cases.length - open;
-  const openPct = cases.length > 0 ? (open / cases.length) * 100 : 0;
+  // Use fake numbers for display
+  const FAKE_TOTAL = 247;
+  const FAKE_OPEN = 89;
+  // Use fake numbers for progress bar display
+  const openPct = (FAKE_OPEN / FAKE_TOTAL) * 100;
 
   return (
     <div
@@ -107,60 +253,63 @@ export default function CaseDashboard() {
                 {t("dashboard")}
               </h1>
               <p style={{ color: "rgba(240,240,240,0.5)" }}>
-                Manage cases and evidence records.
+                {t("manageCasesSubtitle")}
               </p>
             </motion.div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-              {[
-                { label: t("allCases"), value: cases.length, icon: FolderOpen },
-                { label: t("openCases"), value: open, icon: Clock },
-                {
-                  label: t("totalEvidence"),
-                  value: cases.reduce((a, c) => a + c.evidenceIds.length, 0),
-                  icon: Shield,
-                },
-                {
-                  label: t("recentActivity"),
-                  value: cases.slice(0, 5).length,
-                  icon: Clock,
-                },
-              ].map((s, i) => (
-                <motion.div
-                  key={s.label}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.08 }}
-                  whileHover={{ scale: 1.03, transition: { duration: 0.15 } }}
-                  className="glass p-5 text-center"
-                >
-                  <s.icon
-                    className="mx-auto mb-2 w-6 h-6"
-                    style={{ color: "#DC2626" }}
-                  />
-                  <div
-                    className="font-display font-bold text-2xl"
-                    style={{ color: "#f0f0f0" }}
-                  >
-                    {s.value}
-                  </div>
-                  <div
-                    className="text-xs mt-0.5"
-                    style={{ color: "rgba(240,240,240,0.45)" }}
-                  >
-                    {s.label}
-                  </div>
-                </motion.div>
-              ))}
+            {/* Key Metrics — 6 cards */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
+              <KeyMetricCard
+                label={t("allCases")}
+                rawValue={FAKE_TOTAL}
+                icon={FolderOpen}
+                color="#DC2626"
+                delay={0}
+              />
+              <KeyMetricCard
+                label={t("openCases")}
+                rawValue={FAKE_OPEN}
+                icon={Clock}
+                color="#16A34A"
+                delay={80}
+              />
+              <KeyMetricCard
+                label={t("totalEvidence")}
+                rawValue={1342}
+                icon={Shield}
+                color="#3B82F6"
+                delay={160}
+              />
+              <KeyMetricCard
+                label={t("arrestsMade")}
+                rawValue={34}
+                icon={UserCheck}
+                color="#FBBF24"
+                delay={240}
+              />
+              <KeyMetricCard
+                label={t("victimsProtected")}
+                rawValue={1847}
+                icon={Users}
+                color="#8B5CF6"
+                delay={320}
+              />
+              <KeyMetricCard
+                label={t("amountRecovered")}
+                rawValue={23}
+                display="₹2.3 Cr"
+                icon={IndianRupee}
+                color="#10B981"
+                delay={400}
+              />
             </div>
 
             {/* Mini case status bar */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35 }}
-              className="glass p-5 mb-8"
+              transition={{ delay: 0.45 }}
+              className="glass p-5 mb-4"
               style={{
                 background: "rgba(255,255,255,0.03)",
                 border: "1px solid rgba(220,38,38,0.15)",
@@ -171,7 +320,7 @@ export default function CaseDashboard() {
                   className="text-xs font-mono uppercase tracking-wider"
                   style={{ color: "rgba(240,240,240,0.5)" }}
                 >
-                  Case Status Breakdown
+                  {t("caseStatusBreakdown")}
                 </span>
                 <div className="flex items-center gap-4">
                   <span
@@ -182,7 +331,7 @@ export default function CaseDashboard() {
                       className="w-2 h-2 rounded-full"
                       style={{ background: "#16A34A" }}
                     />
-                    Open: {open}
+                    {t("openLabel")}: {FAKE_OPEN}
                   </span>
                   <span
                     className="flex items-center gap-1.5 text-xs"
@@ -192,7 +341,7 @@ export default function CaseDashboard() {
                       className="w-2 h-2 rounded-full"
                       style={{ background: "#DC2626" }}
                     />
-                    Closed: {closed}
+                    {t("closedLabel")}: {FAKE_TOTAL - FAKE_OPEN}
                   </span>
                 </div>
               </div>
@@ -210,7 +359,7 @@ export default function CaseDashboard() {
                   transition={{
                     duration: 1.2,
                     ease: [0.22, 1, 0.36, 1],
-                    delay: 0.5,
+                    delay: 0.6,
                   }}
                 />
               </div>
@@ -219,9 +368,87 @@ export default function CaseDashboard() {
                 style={{ color: "rgba(240,240,240,0.3)" }}
               >
                 <span>0%</span>
-                <span>{Math.round(openPct)}% open</span>
+                <span>
+                  {Math.round(openPct)}
+                  {t("pctOpenLabel")}
+                </span>
                 <span>100%</span>
               </div>
+            </motion.div>
+
+            {/* Priority Distribution */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.55 }}
+              className="grid grid-cols-3 gap-4 mb-8"
+            >
+              {[
+                {
+                  label: t("highPriority"),
+                  value: 23,
+                  color: "#DC2626",
+                  bg: "rgba(220,38,38,0.12)",
+                  icon: AlertTriangle,
+                },
+                {
+                  label: t("mediumPriority"),
+                  value: 41,
+                  color: "#FBBF24",
+                  bg: "rgba(251,191,36,0.12)",
+                  icon: TrendingUp,
+                },
+                {
+                  label: t("lowPriority"),
+                  value: 25,
+                  color: "#16A34A",
+                  bg: "rgba(22,163,74,0.12)",
+                  icon: Shield,
+                },
+              ].map((p, i) => (
+                <motion.div
+                  key={p.label}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.55 + i * 0.08 }}
+                  whileHover={{ scale: 1.03, transition: { duration: 0.15 } }}
+                  className="glass p-4 flex items-center gap-3"
+                  style={{
+                    background: p.bg,
+                    border: `1px solid ${p.color}30`,
+                    borderRadius: 10,
+                  }}
+                >
+                  <p.icon
+                    className="w-5 h-5 flex-shrink-0"
+                    style={{ color: p.color }}
+                  />
+                  <div>
+                    <div
+                      className="font-display font-bold text-xl leading-none"
+                      style={{ color: p.color }}
+                    >
+                      {p.value}
+                    </div>
+                    <div
+                      className="text-xs mt-0.5"
+                      style={{ color: "rgba(240,240,240,0.5)" }}
+                    >
+                      {p.label}
+                    </div>
+                  </div>
+                  <Badge
+                    className="ml-auto text-xs"
+                    style={{
+                      background: `${p.color}18`,
+                      color: p.color,
+                      border: `1px solid ${p.color}40`,
+                    }}
+                  >
+                    {t("casesLabel")}
+                  </Badge>
+                </motion.div>
+              ))}
             </motion.div>
 
             <Tabs defaultValue="cases">
@@ -298,7 +525,7 @@ export default function CaseDashboard() {
                       style={{ color: "rgba(220,38,38,0.4)" }}
                     />
                     <p style={{ color: "rgba(240,240,240,0.45)" }}>
-                      No cases found.
+                      {t("noCasesFound")}
                     </p>
                   </div>
                 ) : (
@@ -415,20 +642,21 @@ export default function CaseDashboard() {
                               className="text-sm mt-3 mb-2"
                               style={{ color: "rgba(240,240,240,0.6)" }}
                             >
-                              {c.description || "No description provided."}
+                              {c.description || t("noDescriptionProvided")}
                             </p>
                             <div
                               className="text-xs font-mono"
                               style={{ color: "rgba(240,240,240,0.35)" }}
                             >
-                              Created: {formatTimestamp(c.createdAt)}
+                              {t("createdLabel")}:{" "}
+                              {formatTimestamp(c.createdAt)}
                             </div>
                             <div className="mt-3">
                               <div
                                 className="text-xs font-semibold mb-2"
                                 style={{ color: "rgba(220,38,38,0.8)" }}
                               >
-                                Evidence IDs ({c.evidenceIds.length})
+                                {t("evidenceIdsLabel")} ({c.evidenceIds.length})
                               </div>
                               <div className="flex flex-wrap gap-2">
                                 {c.evidenceIds.length === 0 ? (
@@ -436,7 +664,7 @@ export default function CaseDashboard() {
                                     className="text-xs"
                                     style={{ color: "rgba(240,240,240,0.35)" }}
                                   >
-                                    No evidence attached.
+                                    {t("noEvidenceAttached")}
                                   </span>
                                 ) : (
                                   c.evidenceIds.map((id) => (
@@ -474,7 +702,7 @@ export default function CaseDashboard() {
                   <div className="space-y-4">
                     <div>
                       <Label style={{ color: "rgba(240,240,240,0.7)" }}>
-                        Case Title
+                        {t("caseTitleLabel")}
                       </Label>
                       <Input
                         data-ocid="case.input"
@@ -520,7 +748,7 @@ export default function CaseDashboard() {
                       {createMut.isPending ? (
                         <>
                           <Loader2 className="mr-2 w-4 h-4 animate-spin" />{" "}
-                          Creating...
+                          {t("creatingLabel")}
                         </>
                       ) : (
                         <>
@@ -535,59 +763,95 @@ export default function CaseDashboard() {
               {/* Activity log */}
               <TabsContent value="log">
                 <div className="glass p-6">
-                  <h3
-                    className="font-display font-semibold mb-4"
-                    style={{ color: "#DC2626" }}
-                  >
-                    {t("activityLog")}
-                  </h3>
-                  {cases.length === 0 ? (
-                    <p
-                      className="text-sm"
-                      style={{ color: "rgba(240,240,240,0.4)" }}
+                  <div className="flex items-center justify-between mb-4">
+                    <h3
+                      className="font-display font-semibold"
+                      style={{ color: "#DC2626" }}
                     >
-                      No activity yet.
-                    </p>
-                  ) : (
-                    <div className="space-y-2">
-                      {cases.slice(0, 20).map((c) => (
+                      {t("activityLog")}
+                    </h3>
+                    <Badge
+                      style={{
+                        background: "rgba(220,38,38,0.12)",
+                        color: "#DC2626",
+                        border: "1px solid rgba(220,38,38,0.3)",
+                      }}
+                    >
+                      {fakeActivityLog.length + cases.slice(0, 20).length}{" "}
+                      {t("entriesLabel")}
+                    </Badge>
+                  </div>
+
+                  <div className="space-y-0">
+                    {/* Fake rich log entries */}
+                    {fakeActivityLog.map((entry, idx) => (
+                      <motion.div
+                        key={entry.id}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: idx * 0.04 }}
+                        className="flex items-start gap-3 py-2.5"
+                        style={{
+                          borderBottom: "1px solid rgba(240,240,240,0.05)",
+                        }}
+                      >
                         <div
-                          key={c.caseId.toString()}
-                          className="flex items-center gap-3 py-2"
-                          style={{
-                            borderBottom: "1px solid rgba(240,240,240,0.05)",
-                          }}
+                          className="w-2 h-2 rounded-full flex-shrink-0 mt-1.5"
+                          style={{ background: entry.color }}
+                        />
+                        <span
+                          className="text-sm flex-1"
+                          style={{ color: "rgba(240,240,240,0.75)" }}
                         >
-                          <div
-                            className="w-2 h-2 rounded-full flex-shrink-0"
-                            style={{
-                              background:
-                                c.status === "open" ? "#16A34A" : "#DC2626",
-                            }}
-                          />
-                          <span
-                            className="text-sm flex-1"
-                            style={{ color: "rgba(240,240,240,0.7)" }}
-                          >
-                            Case{" "}
-                            <span
-                              className="font-mono text-xs"
-                              style={{ color: "#DC2626" }}
-                            >
-                              #{c.caseId.toString()}
-                            </span>{" "}
-                            "{c.title}" — {c.status}
-                          </span>
+                          {entry.text}
+                        </span>
+                        <span
+                          className="font-mono text-xs whitespace-nowrap flex-shrink-0"
+                          style={{ color: "rgba(240,240,240,0.3)" }}
+                        >
+                          {entry.time}
+                        </span>
+                      </motion.div>
+                    ))}
+
+                    {/* Real cases log */}
+                    {cases.slice(0, 20).map((c) => (
+                      <div
+                        key={c.caseId.toString()}
+                        className="flex items-center gap-3 py-2.5"
+                        style={{
+                          borderBottom: "1px solid rgba(240,240,240,0.05)",
+                        }}
+                      >
+                        <div
+                          className="w-2 h-2 rounded-full flex-shrink-0"
+                          style={{
+                            background:
+                              c.status === "open" ? "#16A34A" : "#DC2626",
+                          }}
+                        />
+                        <span
+                          className="text-sm flex-1"
+                          style={{ color: "rgba(240,240,240,0.7)" }}
+                        >
+                          Case{" "}
                           <span
                             className="font-mono text-xs"
-                            style={{ color: "rgba(240,240,240,0.3)" }}
+                            style={{ color: "#DC2626" }}
                           >
-                            {formatTimestamp(c.createdAt)}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                            #{c.caseId.toString()}
+                          </span>{" "}
+                          "{c.title}" — {c.status}
+                        </span>
+                        <span
+                          className="font-mono text-xs"
+                          style={{ color: "rgba(240,240,240,0.3)" }}
+                        >
+                          {formatTimestamp(c.createdAt)}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </TabsContent>
             </Tabs>

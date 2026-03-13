@@ -168,8 +168,7 @@ export default function EvidenceUpload() {
                 {t("uploadEvidence")}
               </h1>
               <p style={{ color: "rgba(240,240,240,0.5)" }}>
-                Upload digital evidence files with automatic SHA-256 integrity
-                verification.
+                {t("uploadEvidenceSubtitle")}
               </p>
             </motion.div>
 
@@ -497,7 +496,7 @@ export default function EvidenceUpload() {
                       className="text-xs"
                       style={{ color: "rgba(220,38,38,0.9)" }}
                     >
-                      Please select a scam type before uploading
+                      {t("selectScamTypeFirst")}
                     </span>
                   </motion.div>
                 )}
@@ -518,7 +517,7 @@ export default function EvidenceUpload() {
                   {isUploading ? (
                     <>
                       <Loader2 className="mr-2 w-4 h-4 animate-spin" />{" "}
-                      Uploading to Blockchain...
+                      {t("uploadingBlockchain")}
                     </>
                   ) : (
                     <>

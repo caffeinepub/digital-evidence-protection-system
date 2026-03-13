@@ -81,8 +81,7 @@ export default function EvidenceVerification() {
                 {t("verifyEvidence")}
               </h1>
               <p style={{ color: "rgba(240,240,240,0.5)" }}>
-                Compare a file's SHA-256 hash against the immutable blockchain
-                record.
+                {t("verifySubtitle")}
               </p>
             </motion.div>
 
@@ -107,7 +106,7 @@ export default function EvidenceVerification() {
 
               <div className="mb-6">
                 <Label style={{ color: "rgba(240,240,240,0.7)" }}>
-                  Upload File for Comparison
+                  {t("uploadFileComparison")}
                 </Label>
                 <div
                   data-ocid="verify.dropzone"
@@ -161,7 +160,7 @@ export default function EvidenceVerification() {
                         className="text-sm"
                         style={{ color: "rgba(240,240,240,0.5)" }}
                       >
-                        Click to upload file for comparison
+                        {t("clickToUploadComparison")}
                       </p>
                     </div>
                   )}
@@ -178,7 +177,7 @@ export default function EvidenceVerification() {
                 {isVerifying ? (
                   <>
                     <Loader2 className="mr-2 w-4 h-4 animate-spin" />{" "}
-                    Verifying...
+                    {t("verifyingLabel")}
                   </>
                 ) : (
                   <>
@@ -232,15 +231,15 @@ export default function EvidenceVerification() {
                         className="text-xs mt-0.5"
                         style={{ color: "rgba(240,240,240,0.5)" }}
                       >
-                        Verification completed at {new Date().toLocaleString()}
+                        {t("verifiedAtLabel")} {new Date().toLocaleString()}
                       </div>
                     </div>
                   </div>
 
                   <div className="space-y-3">
                     {[
-                      ["Stored Hash (Blockchain)", storedHash],
-                      ["Computed Hash (Uploaded File)", computedHash],
+                      [t("storedHashLabel"), storedHash],
+                      [t("computedHashLabel"), computedHash],
                     ].map(([label, hash]) => (
                       <div key={label}>
                         <div
