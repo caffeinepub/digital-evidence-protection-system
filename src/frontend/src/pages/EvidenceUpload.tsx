@@ -11,11 +11,11 @@ import {
   File,
   Gift,
   Heart,
+  HelpCircle,
   Loader2,
   Mail,
   MessageSquareX,
   ShoppingCart,
-  TrendingDown,
   Upload,
   UserX,
   X,
@@ -24,7 +24,6 @@ import { AnimatePresence, motion } from "motion/react";
 import type { ComponentType, SVGProps } from "react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
-import { ExternalBlob } from "../backend";
 import Footer from "../components/Footer";
 import RedRotation3DBG from "../components/RedRotation3DBG";
 import { useLang } from "../contexts/LanguageContext";
@@ -55,16 +54,24 @@ interface ScamTypeItem {
 
 const SCAM_TYPES: ScamTypeItem[] = [
   { key: "phishing", icon: Mail, color: "#EF4444" },
-  { key: "financialFraud", icon: Banknote, color: "#F97316" },
+  { key: "financialInvestmentScam", icon: Banknote, color: "#F97316" },
   { key: "identityTheft", icon: UserX, color: "#8B5CF6" },
   { key: "shoppingScam", icon: ShoppingCart, color: "#06B6D4" },
-  { key: "investmentScam", icon: TrendingDown, color: "#DC2626" },
   { key: "jobFraud", icon: Briefcase, color: "#D97706" },
   { key: "lotteryScam", icon: Gift, color: "#EC4899" },
   { key: "romanceScam", icon: Heart, color: "#F43F5E" },
   { key: "cyberBullying", icon: MessageSquareX, color: "#0EA5E9" },
   { key: "ransomware", icon: Bug, color: "#16A34A" },
+  { key: "otherScam", icon: HelpCircle, color: "#9CA3AF" },
 ];
+
+function generateDemoBlockchainId(): string {
+  const hex = Array.from(crypto.getRandomValues(new Uint8Array(4)))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("")
+    .toUpperCase();
+  return `DEMO-CHAIN-${hex}`;
+}
 
 export default function EvidenceUpload() {
   const { t } = useLang();
@@ -116,24 +123,51 @@ export default function EvidenceUpload() {
   };
 
   const handleSubmit = async () => {
-    if (!actor || !uploadedFile || !selectedScamType) return;
+    if (!uploadedFile || !selectedScamType) return;
     setIsUploading(true);
     addLog(`Scam Type: ${selectedScamType}`);
     addLog("Uploading evidence to blockchain...");
     try {
-      const bytes = new Uint8Array(await uploadedFile.file.arrayBuffer());
-      const blob = ExternalBlob.fromBytes(bytes);
-      const id = await actor.uploadEvidence(
-        uploadedFile.file.name,
-        uploadedFile.file.type || "application/octet-stream",
-        BigInt(uploadedFile.file.size),
-        uploadedFile.hash,
-        `[${selectedScamType}] ${description}`,
-        blob,
-      );
-      setSuccessId(id.toString());
-      addLog(`Evidence successfully recorded. ID: ${id}`);
-      toast.success("Evidence uploaded successfully!");
+      if (actor) {
+        // Real backend upload
+        const { ExternalBlob } = await import("../backend");
+        const bytes = new Uint8Array(await uploadedFile.file.arrayBuffer());
+        const blob = ExternalBlob.fromBytes(bytes);
+        const id = await actor.uploadEvidence(
+          uploadedFile.file.name,
+          uploadedFile.file.type || "application/octet-stream",
+          BigInt(uploadedFile.file.size),
+          uploadedFile.hash,
+          `[${selectedScamType}] ${description}`,
+          blob,
+        );
+        setSuccessId(id.toString());
+        addLog(`Evidence successfully recorded. ID: ${id}`);
+        toast.success("Evidence uploaded successfully!");
+      } else {
+        // Demo mode — simulate blockchain upload
+        await new Promise((res) => setTimeout(res, 1400));
+        const demoId = generateDemoBlockchainId();
+        setSuccessId(demoId);
+        addLog("Evidence recorded on demo blockchain.");
+        addLog(`Demo Blockchain ID: ${demoId}`);
+
+        // Save to localStorage so Verify Evidence page can look it up
+        const stored = JSON.parse(
+          localStorage.getItem("demoEvidenceRecords") || "[]",
+        );
+        stored.push({
+          localId: uploadedFile.evidenceId,
+          blockchainId: demoId,
+          hash: uploadedFile.hash,
+          fileName: uploadedFile.file.name,
+          timestamp: uploadedFile.timestamp,
+          scamType: selectedScamType,
+        });
+        localStorage.setItem("demoEvidenceRecords", JSON.stringify(stored));
+
+        toast.success("Evidence uploaded successfully (demo mode)!");
+      }
     } catch (err) {
       console.error(err);
       toast.error("Upload failed. Please try again.");
@@ -196,6 +230,15 @@ export default function EvidenceUpload() {
                     >
                       Blockchain ID: {successId}
                     </div>
+                    {uploadedFile && (
+                      <div
+                        className="font-mono text-xs mt-0.5"
+                        style={{ color: "rgba(22,163,74,0.65)" }}
+                      >
+                        Evidence ID: {uploadedFile.evidenceId} — use either ID
+                        to verify
+                      </div>
+                    )}
                   </div>
                   <button
                     type="button"
@@ -504,9 +547,7 @@ export default function EvidenceUpload() {
                 <Button
                   data-ocid="evidence.submit_button"
                   onClick={handleSubmit}
-                  disabled={
-                    !uploadedFile || isUploading || !actor || !selectedScamType
-                  }
+                  disabled={!uploadedFile || isUploading || !selectedScamType}
                   className="w-full h-11 font-semibold text-sm"
                   style={{
                     background: "#DC2626",

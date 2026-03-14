@@ -60,6 +60,7 @@ const translations = {
     assignEvidence: "Assign Evidence",
     noTampering: "Evidence Verified — No Tampering Detected",
     tamperAlert: "Tamper Detected — Hash Mismatch",
+    systemOnlineBanner: "SYSTEM ONLINE — SECURE CONNECTION ESTABLISHED",
     heroSubtitle:
       "Securing digital evidence with cryptographic integrity for law enforcement, forensic teams, and judicial authorities.",
     getStarted: "Get Started",
@@ -167,12 +168,14 @@ const translations = {
     financialFraud: "Financial Fraud",
     identityTheft: "Identity Theft",
     shoppingScam: "Online Shopping Scam",
+    financialInvestmentScam: "Financial Fraud / Investment Scam",
     investmentScam: "Investment Scam",
     jobFraud: "Job Fraud",
     lotteryScam: "Lottery / Prize Scam",
     romanceScam: "Romance Scam",
     cyberBullying: "Cyber Bullying",
     ransomware: "Ransomware / Malware",
+    otherScam: "Other",
     // Role Portal
     myPortal: "My Portal",
     selectRole: "Select Your Role",
@@ -335,6 +338,9 @@ const translations = {
     helplineHours: "Mon–Fri, 9AM–6PM IST",
     ministryLabel: "Ministry of Home Affairs",
     stepLabel: "STEP",
+    securityNoticeTitle: "SECURITY NOTICE",
+    securityNoticeText:
+      "For urgent security vulnerabilities or evidence-related emergencies, please contact your designated agency liaison directly. Do not transmit sensitive evidence details through this form.",
   },
   hi: {
     appName: "डिजिटल साक्ष्य संरक्षण प्रणाली",
@@ -392,6 +398,7 @@ const translations = {
     assignEvidence: "साक्ष्य असाइन करें",
     noTampering: "साक्ष्य सत्यापित — कोई छेड़छाड़ नहीं",
     tamperAlert: "छेड़छाड़ पाई गई — हैश मेल नहीं खाता",
+    systemOnlineBanner: "सिस्टम ऑनलाइन — सुरक्षित कनेक्शन स्थापित",
     heroSubtitle:
       "कानून प्रवर्तन, फोरेंसिक टीमों और न्यायिक अधिकारियों के लिए क्रिप्टोग्राफिक अखंडता के साथ डिजिटल साक्ष्य सुरक्षित करना।",
     getStarted: "शुरू करें",
@@ -499,12 +506,14 @@ const translations = {
     financialFraud: "वित्तीय धोखाधड़ी",
     identityTheft: "पहचान चोरी",
     shoppingScam: "ऑनलाइन शॉपिंग स्कैम",
+    financialInvestmentScam: "वित्तीय / निवेश धोखाधड़ी",
     investmentScam: "निवेश धोखाधड़ी",
     jobFraud: "नौकरी धोखाधड़ी",
     lotteryScam: "लॉटरी/इनाम स्कैम",
     romanceScam: "रोमांस स्कैम",
     cyberBullying: "साइबर बुलिंग",
     ransomware: "रैनसमवेयर/मैलवेयर",
+    otherScam: "अन्य",
     // Role Portal
     myPortal: "मेरा पोर्टल",
     selectRole: "अपनी भूमिका चुनें",
@@ -665,6 +674,9 @@ const translations = {
     helplineHours: "सोम–शुक्र, सुबह 9 से शाम 6 बजे IST",
     ministryLabel: "गृह मंत्रालय",
     stepLabel: "चरण",
+    securityNoticeTitle: "सुरक्षा सूचना",
+    securityNoticeText:
+      "अत्यावश्यक सुरक्षा कमजोरियों या साक्ष्य संबंधी आपात स्थितियों के लिए, कृपया सीधे अपने निर्धारित एजेंसी संपर्क से संपर्क करें। इस फ़ॉर्म के माध्यम से संवेदनशील साक्ष्य विवरण न भेजें।",
   },
 } as const;
 

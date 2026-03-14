@@ -258,16 +258,13 @@ export default function Contact() {
                     className="font-mono text-xs mb-3"
                     style={{ color: "rgba(220,38,38,0.7)" }}
                   >
-                    SECURITY NOTICE
+                    {t("securityNoticeTitle")}
                   </div>
                   <p
                     className="text-sm"
                     style={{ color: "rgba(240,240,240,0.55)", lineHeight: 1.7 }}
                   >
-                    For urgent security vulnerabilities or evidence-related
-                    emergencies, please contact your designated agency liaison
-                    directly. Do not transmit sensitive evidence details through
-                    this form.
+                    {t("securityNoticeText")}
                   </p>
                 </div>
               </motion.div>

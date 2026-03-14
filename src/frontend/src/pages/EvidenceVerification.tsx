@@ -20,6 +20,33 @@ import { computeSHA256, truncateHash } from "../utils/crypto";
 
 type VerifyResult = "match" | "mismatch" | null;
 
+interface DemoEvidenceRecord {
+  localId: string;
+  blockchainId: string;
+  hash: string;
+  fileName: string;
+  timestamp: string;
+  scamType: string;
+}
+
+function lookupDemoRecord(id: string): DemoEvidenceRecord | null {
+  try {
+    const stored: DemoEvidenceRecord[] = JSON.parse(
+      localStorage.getItem("demoEvidenceRecords") || "[]",
+    );
+    return (
+      stored.find(
+        (r) =>
+          r.localId === id ||
+          r.blockchainId === id ||
+          r.blockchainId.toLowerCase() === id.toLowerCase(),
+      ) ?? null
+    );
+  } catch {
+    return null;
+  }
+}
+
 export default function EvidenceVerification() {
   const { t } = useLang();
   const { actor } = useActor();
@@ -38,13 +65,28 @@ export default function EvidenceVerification() {
   };
 
   const handleVerify = async () => {
-    if (!actor || !evidenceId || !computedHash) return;
+    if (!evidenceId || !computedHash) return;
     setIsVerifying(true);
     setResult(null);
     try {
-      const record = await actor.getEvidence(BigInt(evidenceId));
-      setStoredHash(record.sha256Hash);
-      setResult(record.sha256Hash === computedHash ? "match" : "mismatch");
+      if (actor) {
+        // Real backend flow
+        const record = await actor.getEvidence(BigInt(evidenceId));
+        setStoredHash(record.sha256Hash);
+        setResult(record.sha256Hash === computedHash ? "match" : "mismatch");
+      } else {
+        // Demo mode — look up from localStorage
+        await new Promise((res) => setTimeout(res, 800)); // simulate latency
+        const record = lookupDemoRecord(evidenceId.trim());
+        if (!record) {
+          toast.error(
+            "Evidence record not found. Make sure you uploaded this file first and entered the correct Evidence ID or Blockchain ID.",
+          );
+          return;
+        }
+        setStoredHash(record.hash);
+        setResult(record.hash === computedHash ? "match" : "mismatch");
+      }
     } catch (err) {
       console.error(err);
       toast.error("Evidence record not found or invalid ID.");
@@ -94,7 +136,7 @@ export default function EvidenceVerification() {
                   data-ocid="verify.input"
                   value={evidenceId}
                   onChange={(e) => setEvidenceId(e.target.value)}
-                  placeholder="Enter numeric Evidence ID"
+                  placeholder="Enter Evidence ID (e.g. EV-XXXXX or DEMO-CHAIN-XXXX)"
                   className="mt-1.5"
                   style={{
                     background: "rgba(255,255,255,0.04)",
@@ -102,6 +144,13 @@ export default function EvidenceVerification() {
                     color: "#f0f0f0",
                   }}
                 />
+                <p
+                  className="mt-1.5 text-xs"
+                  style={{ color: "rgba(240,240,240,0.35)" }}
+                >
+                  Use the Evidence ID (EV-XXXXX) or Blockchain ID
+                  (DEMO-CHAIN-XXXX) shown after upload
+                </p>
               </div>
 
               <div className="mb-6">
@@ -253,7 +302,11 @@ export default function EvidenceVerification() {
                           style={{
                             background: "rgba(0,0,0,0.3)",
                             color: result === "match" ? "#16A34A" : "#DC2626",
-                            border: `1px solid ${result === "match" ? "rgba(22,163,74,0.25)" : "rgba(220,38,38,0.25)"}`,
+                            border: `1px solid ${
+                              result === "match"
+                                ? "rgba(22,163,74,0.25)"
+                                : "rgba(220,38,38,0.25)"
+                            }`,
                           }}
                         >
                           {hash}

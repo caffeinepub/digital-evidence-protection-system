@@ -407,7 +407,7 @@ export default function Home() {
               animate={{ opacity: [1, 0.3, 1] }}
               transition={{ duration: 1.4, repeat: Number.POSITIVE_INFINITY }}
             />
-            SYSTEM ONLINE — SECURE CONNECTION ESTABLISHED
+            {t("systemOnlineBanner")}
           </motion.div>
 
           <motion.h1
